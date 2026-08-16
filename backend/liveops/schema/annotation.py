@@ -87,6 +87,9 @@ class GoldLabel(BaseModel):
     irony: Irony = Irony.NONE
     intent: Intent | None = None
     issue_type: IssueType | None = None
+    confidence: float = Field(default=0.8, ge=0.0, le=1.0)
+    evidence_span: str = ""
+    abstain_reason: str | None = None
     note: str = ""
 
     @field_validator("topics")

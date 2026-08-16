@@ -240,16 +240,16 @@ class Collector:
                 "stats_snapshot": {
                     "view": v["stat"].get("view", 0), "like": v["stat"].get("like", 0),
                     "coin": v["stat"].get("coin", 0), "favorite": v["stat"].get("favorite", 0),
-                    "share": v["stat"].get("share", 0), "reply": v["stat"].get("reply", 0),
+                    "share": v["stat"].get("share", 0), "comment": v["stat"].get("reply", 0),
+                    "snapshot_at": datetime.now(UTC).isoformat(),
                 },
-                "snapshot_at": datetime.now(UTC).isoformat(),
                 "search_term_used": sel["term"], "search_rank": sel.get("rank", 0),
                 "sampling_reason": sel["sampling_reason"],
             }
             videos_fh.write(json.dumps(video, ensure_ascii=False) + "\n")
             videos_fh.flush()
             self.journal({"kind": "meta", "bvid": bvid, "title": video["title"][:40],
-                          "reply_total": video["stats_snapshot"]["reply"]})
+                          "reply_total": video["stats_snapshot"].get("comment", 0)})
 
             # 评论：热门 + 最新 + 楼中楼
             known = set(self.state["post_ids"])
@@ -339,16 +339,38 @@ class Collector:
             known.add(p["post_id"])
 
 
+def expand_selection(col: "Collector", per_category=14) -> int:
+    """补充选片：跨类去重、跳过已完成视频，目标 ~55-60 唯一视频。"""
+    done = set(col.state["video_done"])
+    old = {s["bvid"]: s for s in col.state["selected"]}
+    new_sel = col.search_and_select(per_category=per_category)
+    merged: dict[str, dict] = dict(old)
+    added = 0
+    for s in new_sel:
+        if s["bvid"] not in merged:
+            merged[s["bvid"]] = s
+            added += 1
+    # 去掉已完成
+    todo = [s for s in merged.values() if s["bvid"] not in done]
+    col.state["selected"] = todo + [s for s in merged.values() if s["bvid"] in done]
+    col.save_state()
+    return added
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--study", choices=list(STUDIES), required=True)
     ap.add_argument("--max-requests", type=int, default=2000)
+    ap.add_argument("--expand", action="store_true", help="补充选片并采集新视频")
     args = ap.parse_args()
     cfg = STUDIES[args.study]
     out = OUT_ROOT / cfg["study_id"]
     col = Collector(cfg, out, max_requests=args.max_requests)
     print(f"[collect] study={cfg['study_id']} out={out} phase={col.state['phase']}")
     try:
+        if args.expand:
+            added = expand_selection(col)
+            print(f"[expand] 新增候选视频 {added}")
         if col.state["phase"] == "search":
             sel = col.search_and_select()
             print(f"[select] {len(sel)} videos: " +

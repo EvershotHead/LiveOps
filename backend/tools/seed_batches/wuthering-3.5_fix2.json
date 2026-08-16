@@ -1,0 +1,4 @@
+{
+  "305884666977": {"relevant": true, "topics": ["地图与探索"], "stance": "中立", "emotion": "无明显情绪", "intensity": 0, "irony": "无", "intent": "体验陈述", "issue_type": null, "confidence": 0.4},
+  "306635169953": {"relevant": true, "topics": ["抽卡与商业化"], "stance": "中立", "emotion": "无明显情绪", "intensity": 0, "irony": "无", "intent": "提问", "issue_type": null, "confidence": 0.35}
+}

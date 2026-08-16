@@ -1,69 +1,117 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useEffect, useState } from "react";
+import { data, setRunContext, getStoredRun, DEMO_MODE } from "@/lib/api";
+import type { RunSummary } from "@/lib/types";
+import {
+  Badge, Button, Card, CardBody, CardHeader, CardTitle, CardDesc,
+  Empty, ScopeNote, Table, Td, Th,
+} from "@/components/ui";
+
+const STAGE_LABELS: Record<string, string> = {
+  normalize: "规范化", relevance_filter: "相关性预筛", embed_cluster: "向量聚类",
+  annotate_cheap: "低成本标注", route_review: "复核路由", annotate_strong: "强模型复核",
+  await_human: "人工审核", aggregate: "量化聚合", report: "报告生成", verify: "结论验证",
+};
+
+export default function DataPage() {
+  const [runs, setRuns] = useState<RunSummary[]>([]);
+  const [selected, setSelected] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [stages, setStages] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    setSelected(getStoredRun());
+    if (!DEMO_MODE) {
+      data.runs().then(setRuns).catch((e) => setError(String(e.message)));
+    }
+  }, []);
+
+  const choose = async (rid: string) => {
+    setSelected(rid);
+    setRunContext(rid);
+    try {
+      const d = await data.runDetail(rid);
+      const m = d.manifest as { stage_states?: Record<string, { status: string }> };
+      setStages(Object.fromEntries(Object.entries(m.stage_states || {}).map(([k, v]) => [k, v.status])));
+    } catch { /* ignore */ }
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="mx-auto max-w-5xl space-y-4">
+      <div>
+        <h1 className="text-base font-semibold">数据与任务</h1>
+        <p className="text-xs text-zinc-500">
+          导入评论数据（CSV/XLSX/JSON/JSONL）→ 字段映射 → 创建分析任务；单机串行执行，支持阶段级断点续跑。
+        </p>
+      </div>
+      <ScopeNote text="全部结论口径：所采样的 B 站讨论。导入数据最少需要 text / published_at / source_url 三个字段。" />
+
+      {DEMO_MODE ? (
+        <Card>
+          <CardHeader><CardTitle>公开演示模式</CardTitle>
+            <CardDesc>只读预计算数据，无密钥、无导入入口。本地完整模式请运行 scripts/start-local.ps1。</CardDesc>
+          </CardHeader>
+          <CardBody className="text-xs text-zinc-600">
+            演示数据包含《原神》6.8 与《鸣潮》3.5 两个版本案例：受未登录会话限制，采集为
+            「每视频首页评论 + 楼中楼」的受限公开采样，页面各处均展示该口径与样本量。
+          </CardBody>
+        </Card>
+      ) : (
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle>任务列表</CardTitle>
+              <CardDesc>选择任务后，其余页面展示该任务结果</CardDesc>
+            </CardHeader>
+            <CardBody>
+              {error && <div className="mb-2 text-xs text-red-600">后端未启动或不可达：{error}</div>}
+              {runs.length === 0 && !error && <Empty>暂无任务 —— 可通过 API 或 CLI 创建</Empty>}
+              <Table>
+                <thead>
+                  <tr><Th>任务</Th><Th>研究</Th><Th>状态</Th><Th>模型</Th><Th /></tr>
+                </thead>
+                <tbody>
+                  {runs.map((r) => (
+                    <tr key={r.run_id} data-run={r.run_id}>
+                      <Td className="font-mono text-[11px]">{r.run_id}</Td>
+                      <Td>{r.study_id}</Td>
+                      <Td>
+                        <Badge tone={r.status === "completed" ? "green" : r.status === "failed" ? "red" : "amber"}>
+                          {r.status}
+                        </Badge>
+                      </Td>
+                      <Td className="text-zinc-500">{Object.values(r.models || {}).join(" / ")}</Td>
+                      <Td>
+                        <Button size="sm" variant={selected === r.run_id ? "default" : "outline"}
+                          onClick={() => choose(r.run_id)}>
+                          {selected === r.run_id ? "当前" : "查看"}
+                        </Button>
+                      </Td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+
+          {selected && Object.keys(stages).length > 0 && (
+            <Card>
+              <CardHeader><CardTitle>阶段进度（断点状态）</CardTitle></CardHeader>
+              <CardBody className="grid grid-cols-2 gap-2 md:grid-cols-5">
+                {Object.entries(stages).map(([k, v]) => (
+                  <div key={k} className="rounded border border-zinc-100 p-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs">{STAGE_LABELS[k] ?? k}</span>
+                      <Badge tone={v === "done" ? "green" : v === "failed" ? "red" : "amber"}>{v}</Badge>
+                    </div>
+                  </div>
+                ))}
+              </CardBody>
+            </Card>
+          )}
+        </>
+      )}
     </div>
   );
 }
