@@ -29,6 +29,16 @@ export function getStoredRun(): string | null {
   return window.localStorage.getItem("liveops.run");
 }
 
+/** 演示模式当前游戏（genshin | wuwa）。 */
+export function demoGame(): "genshin" | "wuwa" {
+  if (typeof window === "undefined") return "genshin";
+  return window.localStorage.getItem("liveops.demoGame") === "wuwa" ? "wuwa" : "genshin";
+}
+
+export function setDemoGame(g: "genshin" | "wuwa") {
+  window.localStorage.setItem("liveops.demoGame", g);
+}
+
 async function apiGet<T>(path: string): Promise<T> {
   const r = await fetch(`${API_BASE}${path}`);
   if (!r.ok) throw new Error(`API ${path}: ${r.status}`);
@@ -59,19 +69,19 @@ export const data = {
     DEMO_MODE ? demoGet<RunSummary[]>("runs").catch(() => []) : apiGet<RunSummary[]>("/api/runs"),
   runDetail: (id: string): Promise<Record<string, unknown>> => apiGet(`/api/runs/${id}`),
   overview: (runId?: string): Promise<Overview> =>
-    DEMO_MODE ? demoGet<Overview>("overview") : apiGet<Overview>(`/api/runs/${ctx(runId)}/overview`),
+    DEMO_MODE ? demoGet<Overview>(`overview-${demoGame()}`) : apiGet<Overview>(`/api/runs/${ctx(runId)}/overview`),
   metrics: (runId?: string): Promise<MetricsLike> =>
-    DEMO_MODE ? demoGet<MetricsLike>("metrics") : apiGet<MetricsLike>(`/api/runs/${ctx(runId)}/metrics`),
+    DEMO_MODE ? demoGet<MetricsLike>(`metrics-${demoGame()}`) : apiGet<MetricsLike>(`/api/runs/${ctx(runId)}/metrics`),
   timeline: (runId?: string): Promise<TimelineData> =>
-    DEMO_MODE ? demoGet<TimelineData>("timeline") : apiGet<TimelineData>(`/api/runs/${ctx(runId)}/timeline`),
+    DEMO_MODE ? demoGet<TimelineData>(`timeline-${demoGame()}`) : apiGet<TimelineData>(`/api/runs/${ctx(runId)}/timeline`),
   controversy: (runId?: string): Promise<{ rows: ControversyRow[]; scope_statement: string }> =>
     DEMO_MODE
-      ? demoGet<{ rows: ControversyRow[]; scope_statement: string }>("controversy")
+      ? demoGet<{ rows: ControversyRow[]; scope_statement: string }>(`controversy-${demoGame()}`)
       : apiGet<{ rows: ControversyRow[]; scope_statement: string }>(`/api/runs/${ctx(runId)}/controversy`),
   sensitivity: (runId?: string): Promise<SensitivityData> =>
-    DEMO_MODE ? demoGet<SensitivityData>("sensitivity") : apiGet<SensitivityData>(`/api/runs/${ctx(runId)}/sensitivity`),
+    DEMO_MODE ? demoGet<SensitivityData>(`sensitivity-${demoGame()}`) : apiGet<SensitivityData>(`/api/runs/${ctx(runId)}/sensitivity`),
   evaluation: (runId?: string): Promise<EvaluationData> =>
-    DEMO_MODE ? demoGet<EvaluationData>("evaluation") : apiGet<EvaluationData>(`/api/runs/${ctx(runId)}/evaluation`),
+    DEMO_MODE ? demoGet<EvaluationData>(`evaluation-${demoGame()}`) : apiGet<EvaluationData>(`/api/runs/${ctx(runId)}/evaluation`),
   compare: (): Promise<CompareData> => demoGet<CompareData>("compare"),
   compareRuns: (a: string, b: string): Promise<CompareData> => apiGet<CompareData>(`/api/compare/${a}/${b}`),
   reviewQueue: (runId: string, limit = 50): Promise<{ count: number; items: ReviewItem[] }> =>
@@ -79,5 +89,5 @@ export const data = {
   evidence: (runId: string, id: string): Promise<EvidenceItem> =>
     DEMO_MODE ? demoGet<EvidenceItem>(`evidence/${id}`) : apiGet<EvidenceItem>(`/api/evidence/${runId}/${id}`),
   reportUrl: (runId?: string): string =>
-    DEMO_MODE ? "public-data/report.html" : `${API_BASE}/api/runs/${ctx(runId)}/report`,
+    DEMO_MODE ? `public-data/report-${demoGame()}.html` : `${API_BASE}/api/runs/${ctx(runId)}/report`,
 };

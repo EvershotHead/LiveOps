@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Activity, BarChart3, CalendarRange, Database, FileText, FlaskConical,
   GitCompareArrows, MessagesSquare, SearchCheck, Menu,
 } from "lucide-react";
 import { DEMO_BRAND } from "@/lib/nav";
 import { cn } from "@/lib/utils";
+import { DEMO_MODE } from "@/lib/api";
 import { Badge } from "@/components/ui";
 
 const NAV = [
@@ -26,6 +27,17 @@ const NAV = [
 export function Shell({ children, mode }: { children: React.ReactNode; mode: "local" | "demo" }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [game, setGame] = useState<"genshin" | "wuwa">("genshin");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setGame(window.localStorage.getItem("liveops.demoGame") === "wuwa" ? "wuwa" : "genshin");
+    }
+  }, []);
+  const switchGame = (g: "genshin" | "wuwa") => {
+    window.localStorage.setItem("liveops.demoGame", g);
+    setGame(g);
+    window.location.reload();
+  };
   return (
     <div className="flex min-h-screen bg-zinc-50 text-zinc-900">
       {/* 侧边导航 */}
@@ -67,6 +79,22 @@ export function Shell({ children, mode }: { children: React.ReactNode; mode: "lo
           <Badge tone={mode === "demo" ? "blue" : "green"}>
             {mode === "demo" ? "公开演示 · 只读" : "本地模式"}
           </Badge>
+          {DEMO_MODE && (
+            <div className="mt-2 flex gap-1" data-demo-switch>
+              {(["genshin", "wuwa"] as const).map((g) => (
+                <button
+                  key={g}
+                  onClick={() => switchGame(g)}
+                  className={cn(
+                    "rounded border px-2 py-0.5 text-[11px]",
+                    game === g ? "border-zinc-900 bg-zinc-900 text-white" : "border-zinc-200 text-zinc-600",
+                  )}
+                >
+                  {g === "genshin" ? "原神 6.8" : "鸣潮 3.5"}
+                </button>
+              ))}
+            </div>
+          )}
           <p className="mt-2 text-[10px] leading-4 text-zinc-400">
             结论口径：所采样的 B 站讨论，不代表所有玩家。
           </p>

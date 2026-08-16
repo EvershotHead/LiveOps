@@ -100,6 +100,14 @@ def run_sensitivity(run_id: str):
     return m["composites"]["sensitivity"]
 
 
+@router.get("/runs/{run_id}/evaluation")
+def run_evaluation(run_id: str):
+    p = _store.run_dir(run_id) / "evaluation.json"
+    if not p.exists():
+        raise HTTPException(404, "评测未生成（需运行 tools/run_seed_analysis.py 或真实 LLM 任务）")
+    return json.loads(p.read_text(encoding="utf-8"))
+
+
 @router.get("/compare/{run_a}/{run_b}")
 def compare_runs(run_a: str, run_b: str):
     try:

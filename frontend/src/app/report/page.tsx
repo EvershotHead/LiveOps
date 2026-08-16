@@ -12,14 +12,10 @@ export default function ReportPage() {
 
   useEffect(() => {
     try { setUrl(data.reportUrl()); } catch (e) { setErr(String(e)); }
-    if (!DEMO_MODE) {
-      data.metrics().then((m: MetricsLike) => {
-        setClaims(m.claims ?? []);
-        setVerify(m.verify_result ?? null);
-      }).catch(() => { /* metrics 可选 */ });
-    } else {
-      data.metrics().then((m: MetricsLike) => setClaims(m.claims ?? [])).catch(() => { });
-    }
+    data.metrics().then((m: MetricsLike) => {
+      setClaims(m.claims ?? []);
+      setVerify(m.verify_result ?? null);
+    }).catch(() => { /* metrics 可选 */ });
   }, []);
 
   return (

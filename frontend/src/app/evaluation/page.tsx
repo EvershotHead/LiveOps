@@ -110,7 +110,7 @@ export default function EvaluationPage() {
         </Card>
       </div>
 
-      {Object.entries(d.confusion).map(([dim, cm]) => (
+      {Object.entries(d.confusion).filter(([, cm]) => cm && cm.labels).map(([dim, cm]) => (
         <Card key={dim}>
           <CardHeader><CardTitle>混淆矩阵 · {dim}</CardTitle></CardHeader>
           <CardBody>
