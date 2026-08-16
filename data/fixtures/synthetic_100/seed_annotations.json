@@ -1,0 +1,1518 @@
+{
+  "p001": {
+    "relevant": true,
+    "topics": [
+      "角色设计与美术"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "立绘一放出来",
+    "abstain_reason": null
+  },
+  "p002": {
+    "relevant": true,
+    "topics": [
+      "角色设计与美术"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "头发丝都有光影",
+    "abstain_reason": null
+  },
+  "p003": {
+    "relevant": true,
+    "topics": [
+      "角色设计与美术"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "脸模有点垮",
+    "abstain_reason": null
+  },
+  "p004": {
+    "relevant": true,
+    "topics": [
+      "角色设计与美术"
+    ],
+    "stance": "中立",
+    "emotion": "惊讶",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "提问",
+    "issue_type": null,
+    "confidence": 0.55,
+    "evidence_span": "声线对不上",
+    "abstain_reason": null
+  },
+  "p005": {
+    "relevant": true,
+    "topics": [
+      "角色设计与美术",
+      "战斗与玩法"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "待机小动作",
+    "abstain_reason": null
+  },
+  "p006": {
+    "relevant": true,
+    "topics": [
+      "角色设计与美术",
+      "界面与便利性"
+    ],
+    "stance": "混合",
+    "emotion": "失望",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "美术风格好割裂",
+    "abstain_reason": null
+  },
+  "p007": {
+    "relevant": true,
+    "topics": [
+      "角色设计与美术"
+    ],
+    "stance": "支持",
+    "emotion": "期待",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "不穿模了",
+    "abstain_reason": null
+  },
+  "p008": {
+    "relevant": true,
+    "topics": [
+      "角色设计与美术",
+      "抽卡与商业化"
+    ],
+    "stance": "反对",
+    "emotion": "愤怒",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "改进建议",
+    "issue_type": "奖励争议",
+    "confidence": 0.85,
+    "evidence_span": "定价198",
+    "abstain_reason": null
+  },
+  "p009": {
+    "relevant": true,
+    "topics": [
+      "战斗与玩法"
+    ],
+    "stance": "混合",
+    "emotion": "期待",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "摸清之后确实爽",
+    "abstain_reason": null
+  },
+  "p010": {
+    "relevant": true,
+    "topics": [
+      "战斗与玩法",
+      "性能与缺陷"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "问题报告",
+    "issue_type": "设计分歧",
+    "confidence": 0.9,
+    "evidence_span": "闪避判定",
+    "abstain_reason": null
+  },
+  "p011": {
+    "relevant": true,
+    "topics": [
+      "战斗与玩法"
+    ],
+    "stance": "支持",
+    "emotion": "惊讶",
+    "intensity": 2,
+    "irony": "可能",
+    "intent": "玩梗",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "缝得意外地好玩",
+    "abstain_reason": null
+  },
+  "p012": {
+    "relevant": true,
+    "topics": [
+      "战斗与玩法"
+    ],
+    "stance": "反对",
+    "emotion": "调侃玩梗",
+    "intensity": 2,
+    "irony": "可能",
+    "intent": "玩梗",
+    "issue_type": null,
+    "confidence": 0.6,
+    "evidence_span": "十几年没变过",
+    "abstain_reason": null
+  },
+  "p013": {
+    "relevant": true,
+    "topics": [
+      "战斗与玩法",
+      "界面与便利性"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "改进建议",
+    "issue_type": "设计分歧",
+    "confidence": 0.9,
+    "evidence_span": "强制组队",
+    "abstain_reason": null
+  },
+  "p014": {
+    "relevant": true,
+    "topics": [
+      "战斗与玩法",
+      "平衡与强度"
+    ],
+    "stance": "反对",
+    "emotion": "焦虑",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "问题报告",
+    "issue_type": "设计分歧",
+    "confidence": 0.65,
+    "evidence_span": "元素反应又改了",
+    "abstain_reason": null
+  },
+  "p015": {
+    "relevant": true,
+    "topics": [
+      "剧情与世界观"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 3,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "坐了十分钟没缓过来",
+    "abstain_reason": null
+  },
+  "p016": {
+    "relevant": true,
+    "topics": [
+      "剧情与世界观"
+    ],
+    "stance": "混合",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "结尾仓促",
+    "abstain_reason": null
+  },
+  "p017": {
+    "relevant": true,
+    "topics": [
+      "剧情与世界观"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "小人物的刻画",
+    "abstain_reason": null
+  },
+  "p018": {
+    "relevant": true,
+    "topics": [
+      "剧情与世界观",
+      "官方沟通与社区生态"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "传闻讨论",
+    "issue_type": "设计分歧",
+    "confidence": 0.6,
+    "evidence_span": "台词完全OOC",
+    "abstain_reason": null
+  },
+  "p019": {
+    "relevant": true,
+    "topics": [
+      "剧情与世界观"
+    ],
+    "stance": "中立",
+    "emotion": "焦虑",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.7,
+    "evidence_span": "越铺越大",
+    "abstain_reason": null
+  },
+  "p020": {
+    "relevant": true,
+    "topics": [
+      "剧情与世界观",
+      "活动设计"
+    ],
+    "stance": "混合",
+    "emotion": "期待",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "改进建议",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "活动剧情",
+    "abstain_reason": null
+  },
+  "p021": {
+    "relevant": true,
+    "topics": [
+      "剧情与世界观",
+      "界面与便利性",
+      "官方沟通与社区生态"
+    ],
+    "stance": "反对",
+    "emotion": "愤怒",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "改进建议",
+    "issue_type": "沟通问题",
+    "confidence": 0.9,
+    "evidence_span": "年年装死",
+    "abstain_reason": null
+  },
+  "p022": {
+    "relevant": true,
+    "topics": [
+      "剧情与世界观",
+      "版本内容量"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "可能",
+    "intent": "体验陈述",
+    "issue_type": "内容不足",
+    "confidence": 0.7,
+    "evidence_span": "两小时推完",
+    "abstain_reason": null
+  },
+  "p023": {
+    "relevant": true,
+    "topics": [
+      "剧情与世界观"
+    ],
+    "stance": "中立",
+    "emotion": "期待",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.6,
+    "evidence_span": "吊胃口",
+    "abstain_reason": null
+  },
+  "p024": {
+    "relevant": true,
+    "topics": [
+      "剧情与世界观"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "二创看哭",
+    "abstain_reason": null
+  },
+  "p025": {
+    "relevant": true,
+    "topics": [
+      "地图与探索"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 3,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "每拐一个弯都有惊喜",
+    "abstain_reason": null
+  },
+  "p026": {
+    "relevant": true,
+    "topics": [
+      "地图与探索"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "单曲循环一整天",
+    "abstain_reason": null
+  },
+  "p027": {
+    "relevant": true,
+    "topics": [
+      "地图与探索",
+      "界面与便利性"
+    ],
+    "stance": "混合",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "改进建议",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "传送点密度太低",
+    "abstain_reason": null
+  },
+  "p028": {
+    "relevant": true,
+    "topics": [
+      "地图与探索"
+    ],
+    "stance": "混合",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": "内容不足",
+    "confidence": 0.9,
+    "evidence_span": "搬箱子射箭开门",
+    "abstain_reason": null
+  },
+  "p029": {
+    "relevant": true,
+    "topics": [
+      "地图与探索",
+      "养成与资源"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": "奖励争议",
+    "confidence": 0.9,
+    "evidence_span": "两万摩拉",
+    "abstain_reason": null
+  },
+  "p030": {
+    "relevant": true,
+    "topics": [
+      "地图与探索",
+      "性能与缺陷"
+    ],
+    "stance": "支持",
+    "emotion": "期待",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.75,
+    "evidence_span": "水下地图",
+    "abstain_reason": null
+  },
+  "p031": {
+    "relevant": true,
+    "topics": [
+      "地图与探索"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "随手截图就是壁纸",
+    "abstain_reason": null
+  },
+  "p032": {
+    "relevant": true,
+    "topics": [
+      "地图与探索"
+    ],
+    "stance": "反对",
+    "emotion": "愤怒",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "问题报告",
+    "issue_type": "技术故障",
+    "confidence": 0.9,
+    "evidence_span": "空气墙",
+    "abstain_reason": null
+  },
+  "p033": {
+    "relevant": true,
+    "topics": [
+      "版本内容量"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": "内容不足",
+    "confidence": 0.9,
+    "evidence_span": "第10天就开始长草",
+    "abstain_reason": null
+  },
+  "p034": {
+    "relevant": true,
+    "topics": [
+      "版本内容量"
+    ],
+    "stance": "中立",
+    "emotion": "无明显情绪",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "冲突回应",
+    "issue_type": null,
+    "confidence": 0.65,
+    "evidence_span": "三天速通",
+    "abstain_reason": null
+  },
+  "p035": {
+    "relevant": true,
+    "topics": [
+      "版本内容量",
+      "养成与资源"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 3,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "后半程全靠圣遗物坐牢",
+    "abstain_reason": null
+  },
+  "p036": {
+    "relevant": true,
+    "topics": [
+      "版本内容量",
+      "活动设计"
+    ],
+    "stance": "中立",
+    "emotion": "期待",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.6,
+    "evidence_span": "模板活动凑数",
+    "abstain_reason": null
+  },
+  "p037": {
+    "relevant": true,
+    "topics": [
+      "版本内容量"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": "内容不足",
+    "confidence": 0.75,
+    "evidence_span": "内容量缩水",
+    "abstain_reason": null
+  },
+  "p038": {
+    "relevant": true,
+    "topics": [
+      "版本内容量"
+    ],
+    "stance": "支持",
+    "emotion": "无明显情绪",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.6,
+    "evidence_span": "对休闲玩家刚刚好",
+    "abstain_reason": null
+  },
+  "p039": {
+    "relevant": true,
+    "topics": [
+      "活动设计"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "称赞",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "难度分档好评",
+    "abstain_reason": null
+  },
+  "p040": {
+    "relevant": true,
+    "topics": [
+      "活动设计",
+      "养成与资源"
+    ],
+    "stance": "反对",
+    "emotion": "愤怒",
+    "intensity": 3,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": "奖励争议",
+    "confidence": 0.9,
+    "evidence_span": "一抽都不到",
+    "abstain_reason": null
+  },
+  "p041": {
+    "relevant": true,
+    "topics": [
+      "活动设计"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": "设计分歧",
+    "confidence": 0.9,
+    "evidence_span": "小游戏套皮",
+    "abstain_reason": null
+  },
+  "p042": {
+    "relevant": true,
+    "topics": [
+      "活动设计"
+    ],
+    "stance": "混合",
+    "emotion": "调侃玩梗",
+    "intensity": 1,
+    "irony": "可能",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.6,
+    "evidence_span": "挂机就能拿满",
+    "abstain_reason": null
+  },
+  "p043": {
+    "relevant": true,
+    "topics": [
+      "活动设计",
+      "养成与资源"
+    ],
+    "stance": "反对",
+    "emotion": "焦虑",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "改进建议",
+    "issue_type": "设计分歧",
+    "confidence": 0.9,
+    "evidence_span": "逼肝逼氪",
+    "abstain_reason": null
+  },
+  "p044": {
+    "relevant": true,
+    "topics": [
+      "活动设计",
+      "性能与缺陷"
+    ],
+    "stance": "反对",
+    "emotion": "愤怒",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "问题报告",
+    "issue_type": "技术故障",
+    "confidence": 0.9,
+    "evidence_span": "组队永远掉线",
+    "abstain_reason": null
+  },
+  "p045": {
+    "relevant": true,
+    "topics": [
+      "活动设计",
+      "官方沟通与社区生态"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "改进建议",
+    "issue_type": "沟通问题",
+    "confidence": 0.9,
+    "evidence_span": "排期全靠猜",
+    "abstain_reason": null
+  },
+  "p046": {
+    "relevant": true,
+    "topics": [
+      "养成与资源"
+    ],
+    "stance": "反对",
+    "emotion": "愤怒",
+    "intensity": 3,
+    "irony": "无",
+    "intent": "传闻讨论",
+    "issue_type": "数值争议",
+    "confidence": 0.55,
+    "evidence_span": "三周双爆词条就俩",
+    "abstain_reason": null
+  },
+  "p047": {
+    "relevant": true,
+    "topics": [
+      "养成与资源"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "改进建议",
+    "issue_type": "设计分歧",
+    "confidence": 0.9,
+    "evidence_span": "树脂上限还是160",
+    "abstain_reason": null
+  },
+  "p048": {
+    "relevant": true,
+    "topics": [
+      "养成与资源"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": "设计分歧",
+    "confidence": 0.9,
+    "evidence_span": "重复刷五十次",
+    "abstain_reason": null
+  },
+  "p049": {
+    "relevant": true,
+    "topics": [
+      "养成与资源"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "回归玩家直接起飞",
+    "abstain_reason": null
+  },
+  "p050": {
+    "relevant": true,
+    "topics": [
+      "养成与资源"
+    ],
+    "stance": "反对",
+    "emotion": "愤怒",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "玩梗",
+    "issue_type": "数值争议",
+    "confidence": 0.9,
+    "evidence_span": "6个树脂才出2个紫",
+    "abstain_reason": null
+  },
+  "p051": {
+    "relevant": true,
+    "topics": [
+      "养成与资源"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "改进建议",
+    "issue_type": "设计分歧",
+    "confidence": 0.9,
+    "evidence_span": "说了三年",
+    "abstain_reason": null
+  },
+  "p052": {
+    "relevant": true,
+    "topics": [
+      "养成与资源",
+      "官方沟通与社区生态"
+    ],
+    "stance": "反对",
+    "emotion": "愤怒",
+    "intensity": 3,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": "奖励争议",
+    "confidence": 0.9,
+    "evidence_span": "邮件就一抽",
+    "abstain_reason": null
+  },
+  "p053": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化"
+    ],
+    "stance": "反对",
+    "emotion": "愤怒",
+    "intensity": 3,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": "设计分歧",
+    "confidence": 0.9,
+    "evidence_span": "冷门角色连发",
+    "abstain_reason": null
+  },
+  "p054": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化",
+      "平衡与强度"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "零命机制完整",
+    "abstain_reason": null
+  },
+  "p055": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化"
+    ],
+    "stance": "反对",
+    "emotion": "愤怒",
+    "intensity": 3,
+    "irony": "无",
+    "intent": "问题报告",
+    "issue_type": "数值争议",
+    "confidence": 0.7,
+    "evidence_span": "连续第三个版本歪",
+    "abstain_reason": null
+  },
+  "p056": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化"
+    ],
+    "stance": "反对",
+    "emotion": "调侃玩梗",
+    "intensity": 2,
+    "irony": "可能",
+    "intent": "玩梗",
+    "issue_type": null,
+    "confidence": 0.65,
+    "evidence_span": "定轨还是80抽",
+    "abstain_reason": null
+  },
+  "p057": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "抽卡规划很舒服",
+    "abstain_reason": null
+  },
+  "p058": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "改进建议",
+    "issue_type": "奖励争议",
+    "confidence": 0.9,
+    "evidence_span": "648水花都看不见",
+    "abstain_reason": null
+  },
+  "p059": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化"
+    ],
+    "stance": "混合",
+    "emotion": "焦虑",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "改进建议",
+    "issue_type": null,
+    "confidence": 0.6,
+    "evidence_span": "连着三个池子",
+    "abstain_reason": null
+  },
+  "p060": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化"
+    ],
+    "stance": "反对",
+    "emotion": "愤怒",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "玩梗",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "同一天开",
+    "abstain_reason": null
+  },
+  "p061": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化",
+      "平衡与强度"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "命座梯度合理",
+    "abstain_reason": null
+  },
+  "p062": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化"
+    ],
+    "stance": "中立",
+    "emotion": "调侃玩梗",
+    "intensity": 1,
+    "irony": "可能",
+    "intent": "玩梗",
+    "issue_type": null,
+    "confidence": 0.55,
+    "evidence_span": "看了看钱包",
+    "abstain_reason": null
+  },
+  "p063": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化",
+      "官方沟通与社区生态"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "改进建议",
+    "issue_type": "沟通问题",
+    "confidence": 0.9,
+    "evidence_span": "策划我不信你听不见",
+    "abstain_reason": null
+  },
+  "p064": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化",
+      "官方沟通与社区生态"
+    ],
+    "stance": "中立",
+    "emotion": "调侃玩梗",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "玩梗",
+    "issue_type": null,
+    "confidence": 0.7,
+    "evidence_span": "兑换码发三抽",
+    "abstain_reason": null
+  },
+  "p065": {
+    "relevant": true,
+    "topics": [
+      "平衡与强度"
+    ],
+    "stance": "反对",
+    "emotion": "愤怒",
+    "intensity": 3,
+    "irony": "可能",
+    "intent": "玩梗",
+    "issue_type": "数值争议",
+    "confidence": 0.75,
+    "evidence_span": "血量又膨胀40%",
+    "abstain_reason": null
+  },
+  "p066": {
+    "relevant": true,
+    "topics": [
+      "平衡与强度"
+    ],
+    "stance": "中立",
+    "emotion": "无明显情绪",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.8,
+    "evidence_span": "数值中规中矩",
+    "abstain_reason": null
+  },
+  "p067": {
+    "relevant": true,
+    "topics": [
+      "平衡与强度",
+      "官方沟通与社区生态"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "问题报告",
+    "issue_type": "沟通问题",
+    "confidence": 0.9,
+    "evidence_span": "加强名单呢",
+    "abstain_reason": null
+  },
+  "p068": {
+    "relevant": true,
+    "topics": [
+      "平衡与强度"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "不吃命座不吃专武",
+    "abstain_reason": null
+  },
+  "p069": {
+    "relevant": true,
+    "topics": [
+      "平衡与强度",
+      "官方沟通与社区生态"
+    ],
+    "stance": "中立",
+    "emotion": "惊讶",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "冲突回应",
+    "issue_type": null,
+    "confidence": 0.6,
+    "evidence_span": "标准到底是什么",
+    "abstain_reason": null
+  },
+  "p070": {
+    "relevant": true,
+    "topics": [
+      "平衡与强度"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": "设计分歧",
+    "confidence": 0.9,
+    "evidence_span": "不是难是烦",
+    "abstain_reason": null
+  },
+  "p071": {
+    "relevant": true,
+    "topics": [
+      "性能与缺陷"
+    ],
+    "stance": "反对",
+    "emotion": "愤怒",
+    "intensity": 3,
+    "irony": "无",
+    "intent": "问题报告",
+    "issue_type": "技术故障",
+    "confidence": 0.9,
+    "evidence_span": "一到新地图就崩",
+    "abstain_reason": null
+  },
+  "p072": {
+    "relevant": true,
+    "topics": [
+      "性能与缺陷"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "问题报告",
+    "issue_type": "技术故障",
+    "confidence": 0.9,
+    "evidence_span": "20分钟掉电40%",
+    "abstain_reason": null
+  },
+  "p073": {
+    "relevant": true,
+    "topics": [
+      "性能与缺陷",
+      "官方沟通与社区生态"
+    ],
+    "stance": "混合",
+    "emotion": "惊讶",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "问题报告",
+    "issue_type": "技术故障",
+    "confidence": 0.9,
+    "evidence_span": "热修速度倒是挺快",
+    "abstain_reason": null
+  },
+  "p074": {
+    "relevant": true,
+    "topics": [
+      "性能与缺陷"
+    ],
+    "stance": "反对",
+    "emotion": "愤怒",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "问题报告",
+    "issue_type": "技术故障",
+    "confidence": 0.9,
+    "evidence_span": "版本活动开测必炸",
+    "abstain_reason": null
+  },
+  "p075": {
+    "relevant": true,
+    "topics": [
+      "性能与缺陷"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "中端机也能稳60",
+    "abstain_reason": null
+  },
+  "p076": {
+    "relevant": true,
+    "topics": [
+      "性能与缺陷"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "问题报告",
+    "issue_type": "技术故障",
+    "confidence": 0.9,
+    "evidence_span": "加载要40秒",
+    "abstain_reason": null
+  },
+  "p077": {
+    "relevant": true,
+    "topics": [
+      "界面与便利性"
+    ],
+    "stance": "混合",
+    "emotion": "期待",
+    "intensity": 1,
+    "irony": "可能",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.7,
+    "evidence_span": "虽然晚了五年",
+    "abstain_reason": null
+  },
+  "p078": {
+    "relevant": true,
+    "topics": [
+      "界面与便利性"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "改进建议",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "全靠记性",
+    "abstain_reason": null
+  },
+  "p079": {
+    "relevant": true,
+    "topics": [
+      "界面与便利性"
+    ],
+    "stance": "支持",
+    "emotion": "期待",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "小步快跑",
+    "abstain_reason": null
+  },
+  "p080": {
+    "relevant": true,
+    "topics": [
+      "界面与便利性"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 1,
+    "irony": "可能",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.65,
+    "evidence_span": "字还是那么小",
+    "abstain_reason": null
+  },
+  "p081": {
+    "relevant": true,
+    "topics": [
+      "官方沟通与社区生态"
+    ],
+    "stance": "混合",
+    "emotion": "惊讶",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": "沟通问题",
+    "confidence": 0.9,
+    "evidence_span": "24小时就发了公告",
+    "abstain_reason": null
+  },
+  "p082": {
+    "relevant": true,
+    "topics": [
+      "官方沟通与社区生态"
+    ],
+    "stance": "中立",
+    "emotion": "调侃玩梗",
+    "intensity": 1,
+    "irony": "可能",
+    "intent": "冲突回应",
+    "issue_type": null,
+    "confidence": 0.5,
+    "evidence_span": "下版本照样真香",
+    "abstain_reason": null
+  },
+  "p083": {
+    "relevant": true,
+    "topics": [
+      "官方沟通与社区生态"
+    ],
+    "stance": "中立",
+    "emotion": "调侃玩梗",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "玩梗",
+    "issue_type": null,
+    "confidence": 0.6,
+    "evidence_span": "评论区比游戏本体精彩",
+    "abstain_reason": null
+  },
+  "p084": {
+    "relevant": true,
+    "topics": [
+      "官方沟通与社区生态"
+    ],
+    "stance": "反对",
+    "emotion": "失望",
+    "intensity": 2,
+    "irony": "明显",
+    "intent": "冲突回应",
+    "issue_type": "沟通问题",
+    "confidence": 0.75,
+    "evidence_span": "这八个字我都能背下来了",
+    "abstain_reason": null
+  },
+  "p085": {
+    "relevant": true,
+    "topics": [
+      "官方沟通与社区生态"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "难得的和平时刻",
+    "abstain_reason": null
+  },
+  "p086": {
+    "relevant": true,
+    "topics": [
+      "官方沟通与社区生态"
+    ],
+    "stance": "反对",
+    "emotion": "焦虑",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "传闻讨论",
+    "issue_type": "社区冲突",
+    "confidence": 0.6,
+    "evidence_span": "内鬼爆料满天飞",
+    "abstain_reason": null
+  },
+  "p087": {
+    "relevant": true,
+    "topics": [
+      "地图与探索",
+      "剧情与世界观",
+      "抽卡与商业化",
+      "养成与资源"
+    ],
+    "stance": "混合",
+    "emotion": "无明显情绪",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.7,
+    "evidence_span": "爱与恨五五开",
+    "abstain_reason": null
+  },
+  "p088": {
+    "relevant": true,
+    "topics": [
+      "版本内容量",
+      "养成与资源"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "回归福利也到位",
+    "abstain_reason": null
+  },
+  "p089": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化"
+    ],
+    "stance": "支持",
+    "emotion": "愤怒",
+    "intensity": 2,
+    "irony": "无",
+    "intent": "冲突回应",
+    "issue_type": "设计分歧",
+    "confidence": 0.9,
+    "evidence_span": "测试玩家底线",
+    "abstain_reason": null
+  },
+  "p090": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化"
+    ],
+    "stance": "反对",
+    "emotion": "喜悦",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "冲突回应",
+    "issue_type": null,
+    "confidence": 0.6,
+    "evidence_span": "不喜欢不抽就是了",
+    "abstain_reason": null
+  },
+  "p091": {
+    "relevant": true,
+    "topics": [
+      "抽卡与商业化"
+    ],
+    "stance": "中立",
+    "emotion": "焦虑",
+    "intensity": 1,
+    "irony": "无",
+    "intent": "冲突回应",
+    "issue_type": null,
+    "confidence": 0.55,
+    "evidence_span": "概率这东西真玄学",
+    "abstain_reason": null
+  },
+  "p092": {
+    "relevant": true,
+    "topics": [],
+    "stance": "不明确",
+    "emotion": "调侃玩梗",
+    "intensity": 1,
+    "irony": "无法判断",
+    "intent": "玩梗",
+    "issue_type": null,
+    "confidence": 0.3,
+    "evidence_span": "",
+    "abstain_reason": "单字玩梗，语境不足无法判断立场"
+  },
+  "p093": {
+    "relevant": true,
+    "topics": [],
+    "stance": "不明确",
+    "emotion": "调侃玩梗",
+    "intensity": 1,
+    "irony": "无法判断",
+    "intent": "玩梗",
+    "issue_type": null,
+    "confidence": 0.3,
+    "evidence_span": "",
+    "abstain_reason": "网络梗语境不足"
+  },
+  "p094": {
+    "relevant": null,
+    "topics": [],
+    "stance": null,
+    "emotion": null,
+    "intensity": 0,
+    "irony": "无法判断",
+    "intent": null,
+    "issue_type": null,
+    "confidence": 0.1,
+    "evidence_span": "",
+    "abstain_reason": "孤立符号，无法判断"
+  },
+  "p095": {
+    "relevant": true,
+    "topics": [],
+    "stance": "不明确",
+    "emotion": "调侃玩梗",
+    "intensity": 1,
+    "irony": "无法判断",
+    "intent": "玩梗",
+    "issue_type": null,
+    "confidence": 0.35,
+    "evidence_span": "",
+    "abstain_reason": "反问式玩梗，无明确对象"
+  },
+  "p096": {
+    "relevant": false,
+    "topics": [],
+    "stance": null,
+    "emotion": null,
+    "intensity": 0,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.95,
+    "evidence_span": "参与抽奖",
+    "abstain_reason": null
+  },
+  "p097": {
+    "relevant": false,
+    "topics": [],
+    "stance": null,
+    "emotion": null,
+    "intensity": 0,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.95,
+    "evidence_span": "低价代充",
+    "abstain_reason": null
+  },
+  "p098": {
+    "relevant": false,
+    "topics": [],
+    "stance": null,
+    "emotion": null,
+    "intensity": 0,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.6,
+    "evidence_span": "隔壁某开放世界",
+    "abstain_reason": null
+  },
+  "p099": {
+    "relevant": true,
+    "topics": [
+      "地图与探索"
+    ],
+    "stance": "支持",
+    "emotion": "喜悦",
+    "intensity": 3,
+    "irony": "无",
+    "intent": "体验陈述",
+    "issue_type": null,
+    "confidence": 0.9,
+    "evidence_span": "每拐一个弯都有惊喜",
+    "abstain_reason": null
+  },
+  "p100": {
+    "relevant": null,
+    "topics": [],
+    "stance": null,
+    "emotion": null,
+    "intensity": 0,
+    "irony": "无法判断",
+    "intent": null,
+    "issue_type": null,
+    "confidence": 0.1,
+    "evidence_span": "",
+    "abstain_reason": "疑似提示词注入内容，不作为玩家观点处理"
+  }
+}

@@ -98,6 +98,7 @@ class CommunityPost(StrictModel):
     dedup_group: str | None = None
     flags: list[PostFlag] = []
     source_url: str = ""                # 评论所在页（导入最少字段）
+    synthetic: bool = False             # 合成夹具必须显式标记，禁止冒充真实数据
 
     @field_validator("text")
     @classmethod

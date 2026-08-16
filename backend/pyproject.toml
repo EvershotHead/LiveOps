@@ -30,6 +30,9 @@ dev = [
     "httpx>=0.27",
 ]
 
+[project.scripts]
+liveops = "liveops.cli:main"
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

@@ -199,7 +199,8 @@ class ScriptedLLM(MockLLM):
         pid = m.group(1) if m else ""
         table = json.loads(list(_SCRIPTED.values())[-1]) if _SCRIPTED else {}
         if pid in table:
-            return table[pid]
+            v = table[pid]
+            return v if isinstance(v, str) else json.dumps(v, ensure_ascii=False)
         return json.dumps({"relevant": None, "abstain_reason": "scripted miss"}, ensure_ascii=False)
 
 
