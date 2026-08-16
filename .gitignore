@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+
+# Env & secrets
+.env
+.env.local
+secrets/
+*.salt
+
+# Data: raw (未匿名) 与运行产物不进 git
+data/raw/
+runs/
+backend/liveops.egg-info/
+
+# 但匿名化公开数据与夹具要进 git
+!data/fixtures/
+!data/anon/
+!demo/public-data/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Playwright
+test-results/
+playwright-report/
+# 演示视频产物较大，单独决定是否提交
+*.webm
+*.mp4
