@@ -31,14 +31,14 @@ bash scripts/start-local.sh
 - 真实 LLM 标注：复制 `.env.example` 为 `.env`，填写 `LLM_BASE_URL / LLM_API_KEY / LLM_MODEL`（OpenAI 兼容，预留 Ollama 适配），重启即可。未配置密钥时系统以种子回放/演示数据运行。
 - 已内置两个真实案例 run：`runs/seed-genshin-6.8`、`runs/seed-wuthering-3.5`（在「数据与任务」页选择查看）。
 
-### 公开演示模式（无密钥只读）
+### 公开演示模式（无密钥只读，开箱即看）
 
 ```bash
-bash scripts/build-demo.sh          # 产出 frontend/out/ 静态站
-pnpm exec serve frontend/out -l 4173
+bash scripts/start-demo.sh          # 一键：构建静态站 + 本地服务 + 打开浏览器
+# 或指定端口: bash scripts/start-demo.sh 8080
 ```
 
-演示数据为预计算 JSON（`demo/public-data/`，已匿名化 + 泄漏扫描），含双游戏切换。
+首次会自动构建（约 1-2 分钟），之后秒开。演示数据为预计算 JSON（`demo/public-data/`，已匿名化 + 泄漏扫描），左上角可切换《原神 6.8》/《鸣潮 3.5》。这是「无需任何密钥即可查看完整样例」的推荐入口。
 
 ## 复现主要结果
 
