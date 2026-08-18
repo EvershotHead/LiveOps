@@ -22,13 +22,16 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 11
+          version: 11.22.0
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: pnpm
           cache-dependency-path: frontend/pnpm-lock.yaml
       - name: Build demo (static export)
+        env:
+          # 关键：CI 在海外，覆盖 .npmrc 里的 npmmirror 国内镜像，改用官方源
+          npm_config_registry: https://registry.npmjs.org
         run: |
           cd frontend
           pnpm install --frozen-lockfile
