@@ -29,7 +29,7 @@ bash scripts/start-local.sh
 
 - 首次：`cd backend && uv sync --extra dev --extra embed`；`cd frontend && pnpm install`
 - 真实 LLM 标注：复制 `.env.example` 为 `.env`，填写 `LLM_BASE_URL / LLM_API_KEY / LLM_MODEL`（OpenAI 兼容，预留 Ollama 适配），重启即可。未配置密钥时系统以种子回放/演示数据运行。
-- 已内置两个真实案例 run：`runs/seed-genshin-6.8`、`runs/seed-wuthering-3.5`（在「数据与任务」页选择查看）。
+- 已内置两个真实案例 run：`runs/full-genshin-6.8`、`runs/full-wuthering-3.5`（全量标注，在「数据与任务」页选择查看）。
 
 ### 公开演示模式（无密钥只读，开箱即看）
 

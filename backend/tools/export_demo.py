@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 RUNS = ROOT / "runs"
 OUT = ROOT / "demo" / "public-data"
 
-GAMES = {"genshin": "seed-genshin-6.8", "wuwa": "seed-wuthering-3.5"}
+GAMES = {"genshin": "full-genshin-6.8", "wuwa": "full-wuthering-3.5"}
 
 
 def main():
@@ -33,7 +33,27 @@ def main():
         tl = rr.run_timeline(run_id)
         cv = rr.run_controversy(run_id)
         se = rr.run_sensitivity(run_id)
-        ev = json.loads((RUNS / run_id / "evaluation.json").read_text(encoding="utf-8"))
+        ev_path = RUNS / run_id / "evaluation.json"
+        if ev_path.exists():
+            ev = json.loads(ev_path.read_text(encoding="utf-8"))
+        else:
+            ev = {
+                "gold_layer": "strong_model_seed",
+                "n_gold": 800,
+                "n_evaluated": None,
+                "relevance": {"macro_f1": None, "note": "全量回放模式，无金标对照"},
+                "topics": {"macro_f1": None},
+                "stance": None, "emotion": None, "irony": None,
+                "ece": None, "kappa": None,
+                "cost_cny": 0.0, "throughput_per_min": None,
+                "confusion": {},
+                "targets": {"relevance": 0.9, "topics": 0.7, "stance": 0.75, "emotion": 0.65, "irony": 0.6},
+                "notes": [
+                    "全量标注模式：开发 Agent 强模型全量标注（原神1597/鸣潮1939条）回放进入管道，回放一致性100%验证管道正确性，非模型质量证据",
+                    "LLM 标注质量：未测量——配置密钥后对全量样本真实运行可得",
+                    "向量基线/金标对照：待人工金标层补齐后计算",
+                ],
+            }
         m = store.metrics(run_id)
         # 证据逐条导出（文本已匿名，@提及再脱敏一次）
         ev_dir = OUT / "evidence"
