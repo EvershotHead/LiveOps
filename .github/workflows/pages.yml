@@ -29,15 +29,23 @@ jobs:
           cache: pnpm
           cache-dependency-path: frontend/pnpm-lock.yaml
       - name: Build demo (static export)
-        env:
-          # 关键：CI 在海外，覆盖 .npmrc 里的 npmmirror 国内镜像，改用官方源
-          npm_config_registry: https://registry.npmjs.org
         run: |
+          set -o pipefail
           cd frontend
-          pnpm install --frozen-lockfile
+          # 关键：项目 .npmrc 指向 npmmirror（国内镜像，CI 海外访问不稳定）。
+          # npm_config_registry 环境变量优先级低于项目 .npmrc、对 pnpm 不生效，
+          # 必须直接覆写 .npmrc 并用 --registry flag 双保险。
+          echo "registry=https://registry.npmjs.org" > .npmrc
+          pnpm install --frozen-lockfile --registry=https://registry.npmjs.org 2>&1 | tee /tmp/ci-build.log | tail -4
           mkdir -p public/public-data
           cp -r ../demo/public-data/* public/public-data/
-          NEXT_PUBLIC_DEMO=1 pnpm build
+          NEXT_PUBLIC_DEMO=1 pnpm build 2>&1 | tee -a /tmp/ci-build.log | tail -30
+      - name: Upload build log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-build-log
+          path: /tmp/ci-build.log
       - uses: actions/upload-pages-artifact@v3
         with:
           path: frontend/out
