@@ -51,6 +51,20 @@ uv run python tools/run_seed_analysis.py    # 双游戏全量分析+评测
 uv run python tools/export_demo.py          # 演示导出（含泄漏扫描断言）
 ```
 
+### 向量模型依赖（bge-m3，运行时下载）
+
+主题聚类阶段使用 [BAAI/bge-m3](https://huggingface.co/BAAI/bge-m3) 中文嵌入模型（约 2.3 GB），
+**首次运行 embed 阶段时自动下载**到系统缓存 `~/.cache/huggingface`（仅本地推理，语料不出本机）。
+国内网络直连 hf.co 易挂起，建议设置镜像：
+
+```bash
+export HF_ENDPOINT=https://hf-mirror.com      # Windows PowerShell: $env:HF_ENDPOINT="https://hf-mirror.com"
+```
+
+嵌入质量按 `bge-m3 → bge-small-zh → 字符 n-gram 哈希` 降级链回退，
+实际使用哪一档记录在每个 run 的 `state.json`（`embed_quality` 字段）中，可审计；
+四份演示数据（7.0/6.8/3.6/3.5）均为满配 bge-m3 口径。缓存位置可用 `HF_HOME` 环境变量自定义。
+
 ## 仓库结构
 
 | 目录 | 说明 |

@@ -51,6 +51,22 @@ uv run python tools/run_seed_analysis.py    # dual-game full analysis + evaluati
 uv run python tools/export_demo.py          # demo export (with leak-scan assertion)
 ```
 
+### Vector model dependency (bge-m3, downloaded at runtime)
+
+Topic clustering uses the [BAAI/bge-m3](https://huggingface.co/BAAI/bge-m3) Chinese embedding
+model (~2.3 GB), **downloaded automatically on first embed run** to `~/.cache/huggingface`
+(local inference only — corpus never leaves the machine). Direct access to hf.co may hang on
+some networks; a mirror is recommended:
+
+```bash
+export HF_ENDPOINT=https://hf-mirror.com
+```
+
+Embedding quality falls back along `bge-m3 → bge-small-zh → char n-gram hashing`;
+the tier actually used is recorded per run in `state.json` (`embed_quality`) for auditability.
+All four shipped demo datasets (7.0/6.8/3.6/3.5) use the full bge-m3 tier.
+Customize the cache location via the `HF_HOME` environment variable.
+
 ## Repository layout
 
 | Directory | Purpose |
