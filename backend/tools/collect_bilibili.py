@@ -133,7 +133,12 @@ class Collector:
         headers = {**HEADERS}
         if referer:
             headers["Referer"] = referer
-        r = self.client.get(url, params=params, headers=headers)
+        try:
+            r = self.client.get(url, params=params, headers=headers)
+        except httpx.HTTPError:
+            # 网络抖动单次重试（非风控重试）；再失败则作为硬停保存断点
+            time.sleep(5)
+            r = self.client.get(url, params=params, headers=headers)
         if r.status_code == 412 or r.status_code == 403:
             raise HardStop(f"HTTP {r.status_code} 风控拦截")
         try:
@@ -381,30 +386,114 @@ def expand_selection(col: "Collector", per_category=14) -> int:
     return added
 
 
+def deepen(col: "Collector", target_add_per_video=160, sub_pages_max=25) -> int:
+    """对已完成视频深翻楼中楼补量（匿名口径：根评论已采满，增量来自更深楼中楼）。
+
+    不重复写 videos.jsonl；post 以 state.post_ids 去重追加。断点安全：每个视频
+    处理后立即 flush + save_state，HardStop 时保留已完成进度。
+    """
+    done = set(col.state["video_done"])
+    known = set(col.state["post_ids"])
+    posts_fh = open(col.out / "posts.jsonl", "a", encoding="utf-8")
+    added_total = 0
+    try:
+        for sel in col.state["selected"]:
+            bvid = sel["bvid"]
+            if bvid not in done:
+                continue
+            added = 0
+            try:
+                meta = col._get("https://api.bilibili.com/x/web-interface/view",
+                                params={"bvid": bvid}, risk=True,
+                                referer=f"https://www.bilibili.com/video/{bvid}/")
+                if meta.get("code") != 0:
+                    col.journal({"kind": "deepen_meta_fail", "bvid": bvid, "code": meta.get("code")})
+                    continue
+                aid = meta["data"]["aid"]
+                url = f"https://www.bilibili.com/video/{bvid}/"
+                stop = False
+                for mode in (3, 2):
+                    if stop:
+                        break
+                    d = col._get("https://api.bilibili.com/x/v2/reply/wbi/main",
+                                 params=col.signer.sign({"oid": aid, "type": 1, "mode": mode,
+                                                         "next": 0, "ps": 20}),
+                                 risk=True, kind="comment", referer=url)
+                    for r in (d.get("data") or {}).get("replies") or []:
+                        # 只深翻长楼中楼：initial 阶段受每视频 110 条上限截断的就是这些
+                        if int(r.get("rcount", 0) or 0) < 40:
+                            continue
+                        for pn in range(1, sub_pages_max + 1):
+                            if added >= target_add_per_video:
+                                stop = True
+                                break
+                            d2 = col._get("https://api.bilibili.com/x/v2/reply/reply",
+                                          params=col.signer.sign({"oid": aid, "type": 1,
+                                                                  "root": r["rpid"],
+                                                                  "pn": pn, "ps": 20}),
+                                          risk=True, kind="comment", referer=url)
+                            subs = (d2.get("data") or {}).get("replies") or []
+                            for s in subs:
+                                p = col._post(s, bvid, url, str(r["rpid"]))
+                                if p and p["post_id"] and p["post_id"] not in known:
+                                    known.add(p["post_id"])
+                                    posts_fh.write(json.dumps(p, ensure_ascii=False) + "\n")
+                                    added += 1
+                            if len(subs) < 20:
+                                break
+                        if added >= target_add_per_video:
+                            stop = True
+                            break
+            except HardStop:
+                col.state["post_ids"] = list(known)
+                col.save_state()
+                raise
+            finally:
+                posts_fh.flush()
+            if added:
+                col.state["post_ids"] = list(known)
+                col.save_state()
+            added_total += added
+            col.journal({"kind": "deepen", "bvid": bvid, "added": added})
+            print(f"[deepen] {bvid} +{added}")
+    finally:
+        posts_fh.close()
+    return added_total
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--study", choices=list(STUDIES), required=True)
     ap.add_argument("--max-requests", type=int, default=2000)
     ap.add_argument("--expand", action="store_true", help="补充选片并采集新视频")
+    ap.add_argument("--deepen", action="store_true", help="对已完成视频深翻楼中楼补量")
     args = ap.parse_args()
     cfg = STUDIES[args.study]
     out = OUT_ROOT / cfg["study_id"]
     col = Collector(cfg, out, max_requests=args.max_requests)
     print(f"[collect] study={cfg['study_id']} out={out} phase={col.state['phase']}")
     try:
-        if args.expand:
-            added = expand_selection(col)
-            print(f"[expand] 新增候选视频 {added}")
-        if col.state["phase"] == "search":
-            sel = col.search_and_select()
-            print(f"[select] {len(sel)} videos: " +
-                  ", ".join(f"{c}={sum(1 for s in sel if s['category']==c)}"
-                            for c in ("official","guide","review","fanwork","controversy")))
-        n = col.collect()
-        print(f"[collect] 新增评论 {n}，累计 {len(col.state['post_ids'])}，请求 {col.requests}")
+        if args.deepen:
+            n = deepen(col)
+            print(f"[deepen] 新增评论 {n}，累计 {len(col.state['post_ids'])}，请求 {col.requests}")
+        else:
+            if args.expand:
+                added = expand_selection(col)
+                print(f"[expand] 新增候选视频 {added}")
+            if col.state["phase"] == "search":
+                sel = col.search_and_select()
+                print(f"[select] {len(sel)} videos: " +
+                      ", ".join(f"{c}={sum(1 for s in sel if s['category']==c)}"
+                                for c in ("official","guide","review","fanwork","controversy")))
+            n = col.collect()
+            print(f"[collect] 新增评论 {n}，累计 {len(col.state['post_ids'])}，请求 {col.requests}")
     except HardStop as e:
         print(f"[HARD STOP] {e} —— 已保存断点（{len(col.state['video_done'])} 视频完成，"
               f"{len(col.state['post_ids'])} 评论）。按协议不重试，可续跑或转导入模式。")
+        col.save_state()
+    except httpx.HTTPError as e:
+        print(f"[HARD STOP] 网络异常 {e!r} —— 已保存断点"
+              f"（{len(col.state['video_done'])} 视频完成，{len(col.state['post_ids'])} 评论）。")
         col.save_state()
     print(f"[done] phase={col.state['phase']}")
 

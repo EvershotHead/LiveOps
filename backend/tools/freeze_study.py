@@ -12,7 +12,7 @@ from pathlib import Path
 
 from liveops.collector.sampling import validate_sample
 from liveops.harness.checkpoints import output_hash
-from liveops.schema import CommunityPost, ContentItem, StudyConfig
+from liveops.schema import CommunityPost, ContentItem, PhaseWindow, StudyConfig
 
 UTC = timezone.utc
 DATA = Path(__file__).resolve().parents[2] / "data"
@@ -24,6 +24,15 @@ STUDY_DEFS = {
     "wuthering-3.5": dict(game="wuthering_waves", version_label="3.5", t0=date(2026, 7, 10),
                           search_terms=["鸣潮3.5 PV", "鸣潮3.5 攻略", "鸣潮3.5 体验",
                                         "鸣潮3.5 二创", "鸣潮3.5 卡池"]),
+    "genshin-7.0": dict(game="genshin", version_label="7.0", t0=date(2026, 8, 12),
+                        search_terms=["原神7.0 PV", "原神7.0 攻略", "原神7.0 体验",
+                                      "原神7.0 二创", "原神7.0 卡池"]),
+    # 鸣潮 3.6 于 2026-08-20 上线，采集日 2026-09-11 距 T0 仅 22 天：
+    # 发酵期窗口截断至 T+22（未满 T+28），作为诚实口径记录在冻结报告与复盘文档。
+    "wuthering-3.6": dict(game="wuthering_waves", version_label="3.6", t0=date(2026, 8, 20),
+                          window=PhaseWindow(ferment=(8, 22)),
+                          search_terms=["鸣潮3.6 PV", "鸣潮3.6 攻略", "鸣潮3.6 体验",
+                                        "鸣潮3.6 二创", "鸣潮3.6 卡池"]),
 }
 
 
@@ -32,6 +41,7 @@ def freeze(study_id: str) -> Path:
     cfg = STUDY_DEFS[study_id]
     study = StudyConfig(study_id=study_id, t0_date=cfg["t0"], search_terms=cfg["search_terms"],
                         game=cfg["game"], version_label=cfg["version_label"],  # type: ignore[arg-type]
+                        window=cfg.get("window", PhaseWindow()),
                         locked_at=datetime.now(UTC),
                         lock_evidence=["docs/sampling-protocol.md 版本锁定证据"])
     posts = [CommunityPost.model_validate(json.loads(l))

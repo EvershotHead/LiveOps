@@ -28,28 +28,42 @@ jobs:
           node-version: 24
           cache: pnpm
           cache-dependency-path: frontend/pnpm-lock.yaml
-      - name: Build demo (static export)
+      - name: Install deps
         run: |
-          set -o pipefail
           cd frontend
           # 关键：项目 .npmrc 指向 npmmirror（国内镜像，CI 海外访问不稳定）。
           # npm_config_registry 环境变量优先级低于项目 .npmrc、对 pnpm 不生效，
           # 必须直接覆写 .npmrc；同时保留 verify-deps-before-run=false
           # （pnpm 11 默认在 run 前验证依赖，CI 无 TTY 会直接失败）。
           printf "registry=https://registry.npmjs.org\nverify-deps-before-run=false\n" > .npmrc
-          pnpm install --frozen-lockfile --registry=https://registry.npmjs.org 2>&1 | tee /tmp/ci-build.log | tail -3
-          echo "=== INSTALL DONE ===" | tee -a /tmp/ci-build.log
+          pnpm install --frozen-lockfile --registry=https://registry.npmjs.org 2>&1 | tee /tmp/ci-install.log | tail -3
+      - name: Copy demo data
+        run: |
+          cd frontend
           mkdir -p public/public-data
           cp -r ../demo/public-data/* public/public-data/
-          echo "=== START BUILD ===" | tee -a /tmp/ci-build.log
-          # 直接调用 next 二进制，绕开 pnpm run 的依赖预验证
-          NEXT_PUBLIC_DEMO=1 ./node_modules/.bin/next build 2>&1 | tee -a /tmp/ci-build.log | tail -40
-      - name: Upload build log on failure
+      - name: Build
+        run: |
+          set -o pipefail
+          cd frontend
+          {
+            echo "node: $(node --version)"
+            echo "next: $(./node_modules/.bin/next --version 2>&1)"
+            echo "swc: $(ls node_modules/@next/ 2>/dev/null | tr '\n' ' ')"
+            echo "mem: $(free -m | head -2 | tail -1)"
+            echo "=== START BUILD ==="
+            NEXT_PUBLIC_DEMO=1 ./node_modules/.bin/next build
+            echo "=== BUILD EXIT $? ==="
+          } 2>&1 | tee /tmp/ci-build.log | tail -45
+      - name: Dump logs on failure
         if: failure()
         run: |
-          # 日志页面需登录才能查看；把尾部日志打成 ::error:: 注解（匿名可通过 API/页面读到）
-          tail -n 30 /tmp/ci-build.log | sed 's/%/%25/g; s/\r/%0D/g; s/\n/%0A/g' | cut -c1-500 | while IFS= read -r line; do
+          # 日志页面需登录才能查看；把尾部日志打成 ::error:: 注解（匿名可读）
+          tail -n 22 /tmp/ci-build.log 2>/dev/null | sed 's/%/%25/g; s/\r//g' | cut -c1-380 | while IFS= read -r line; do
             echo "::error::$line"
+          done
+          tail -n 10 /tmp/ci-install.log 2>/dev/null | sed 's/%/%25/g; s/\r//g' | cut -c1-380 | while IFS= read -r line; do
+            echo "::error::[install] $line"
           done
       - uses: actions/upload-pages-artifact@v3
         with:
