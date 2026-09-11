@@ -1,0 +1,10 @@
+{
+  "314456178096": {"relevant": null, "topics": [], "stance": null, "emotion": "调侃玩梗", "intensity": 1, "irony": "无法判断", "intent": "玩梗", "issue_type": null, "confidence": 0.3, "note": "飞太高没信号玩笑", "abstain_reason": "楼中楼梗语境不足"},
+  "312953601585": {"relevant": true, "topics": ["性能与缺陷"], "stance": "中立", "emotion": "无明显情绪", "intensity": 1, "irony": "无", "intent": "体验陈述", "issue_type": "技术故障", "confidence": 0.55, "note": "帧生成下高低画质流畅度接近"},
+  "313560373857": {"relevant": true, "topics": ["剧情与世界观"], "stance": "中立", "emotion": "无明显情绪", "intensity": 0, "irony": "无", "intent": "提问", "issue_type": null, "confidence": 0.45, "note": "念白语言版本理解"},
+  "313541583985": {"relevant": true, "topics": ["官方沟通与社区生态", "角色设计与美术"], "stance": "中立", "emotion": "无明显情绪", "intensity": 1, "irony": "无", "intent": "冲突回应", "issue_type": "社区冲突", "confidence": 0.5, "note": "男女角色热度跨游戏对比"},
+  "313640128449": {"relevant": null, "topics": [], "stance": null, "emotion": "无明显情绪", "intensity": 0, "irony": "无法判断", "intent": "体验陈述", "issue_type": null, "confidence": 0.15, "note": "纯@", "abstain_reason": "单字语境不足"},
+  "313414710561": {"relevant": false, "topics": [], "stance": null, "emotion": "无明显情绪", "intensity": 0, "irony": "无", "intent": "体验陈述", "issue_type": null, "confidence": 0.6, "note": "UP 求三连充电互动"},
+  "316969938448": {"relevant": false, "topics": [], "stance": null, "emotion": "无明显情绪", "intensity": 0, "irony": "无", "intent": "体验陈述", "issue_type": null, "confidence": 0.6, "note": "UP 求流量互动"},
+  "313524960881": {"relevant": null, "topics": [], "stance": null, "emotion": "无明显情绪", "intensity": 0, "irony": "无法判断", "intent": "玩梗", "issue_type": null, "confidence": 0.25, "note": "红中老大梗", "abstain_reason": "梗语境不足"}
+}

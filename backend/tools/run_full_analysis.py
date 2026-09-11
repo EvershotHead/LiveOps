@@ -19,6 +19,8 @@ RUNS = ROOT / "runs"
 STUDIES = {
     "genshin-6.8": ("genshin", "6.8", "2026-07-01"),
     "wuthering-3.5": ("wuthering_waves", "3.5", "2026-07-10"),
+    "genshin-7.0": ("genshin", "7.0", "2026-08-12"),
+    "wuthering-3.6": ("wuthering_waves", "3.6", "2026-08-20"),
 }
 
 
@@ -71,6 +73,7 @@ def load_all_annotations(study_id: str) -> dict[str, dict]:
 def main():
     results = {}
     for study_id in STUDIES:
+        print(f"[run] {study_id}")
         study, posts, videos = load_study(study_id)
         annotations = load_all_annotations(study_id)
         print(f"[run] {study_id}: posts={len(posts)} 标注={len(annotations)}")

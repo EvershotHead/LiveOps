@@ -5,13 +5,16 @@ import { data, DEMO_MODE } from "@/lib/api";
 import type { CompareData } from "@/lib/types";
 import { EChart } from "@/components/charts/echart";
 import {
-  Card, CardBody, CardHeader, CardTitle, CardDesc, Empty, Input, ScopeNote, Table, Td, Th, Button,
+  Card, CardBody, CardHeader, CardTitle, CardDesc, Empty, Input, PageHeader,
+  ScopeNote, Table, Td, Th, Button, Tabs, Badge,
 } from "@/components/ui";
 import { GAME_NAMES } from "@/lib/nav";
 import { num, signed } from "@/lib/utils";
+import { COMPARE_PAIRS, currentCompareKey, setCompareKey } from "@/lib/studies";
 
 export default function ComparePage() {
   const [d, setD] = useState<CompareData | null>(null);
+  const [pair, setPair] = useState(COMPARE_PAIRS[0].key);
   const [runA, setRunA] = useState("");
   const [runB, setRunB] = useState("");
   const [err, setErr] = useState<string | null>(null);
@@ -23,16 +26,41 @@ export default function ComparePage() {
 
   useEffect(() => {
     if (DEMO_MODE) {
-      data.compare().then(setD).catch((e) => setErr(String(e.message)));
+      const k = currentCompareKey();
+      setPair(k);
+      fetch(`public-data/compare-${k}.json`)
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`compare-${k}: ${r.status}`))))
+        .then(setD)
+        .catch((e) => setErr(String(e.message)));
     }
   }, []);
 
+  const switchPair = (k: string) => {
+    setPair(k);
+    setCompareKey(k);
+    setErr(null);
+    setD(null);
+    fetch(`public-data/compare-${k}.json`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`compare-${k}: ${r.status}`))))
+      .then(setD)
+      .catch((e) => setErr(String(e.message)));
+  };
+
   return (
     <div className="mx-auto max-w-6xl space-y-4">
-      <div>
-        <h1 className="text-base font-semibold">双游戏对照</h1>
-        <p className="text-xs text-zinc-500">相同相对时间窗（各自 T0 归一化）· 归一化指标 · 不输出胜负结论</p>
-      </div>
+      <PageHeader
+        title="双游戏对照"
+        desc="相同相对时间窗（各自 T0 归一化）· 归一化指标 · 不输出胜负结论"
+        right={DEMO_MODE ? <Badge tone="gray">同代版本对照</Badge> : undefined}
+      />
+
+      {DEMO_MODE && (
+        <Tabs
+          tabs={COMPARE_PAIRS.map((p) => ({ key: p.key, label: p.label }))}
+          value={pair}
+          onChange={switchPair}
+        />
+      )}
 
       {!DEMO_MODE && (
         <Card>

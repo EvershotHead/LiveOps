@@ -1,26 +1,52 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { data } from "@/lib/api";
+import { DEMO_MODE, data } from "@/lib/api";
 import type { Overview } from "@/lib/types";
 import { EChart } from "@/components/charts/echart";
 import {
-  Badge, Card, CardBody, CardHeader, CardTitle, CardDesc, Empty, ScopeNote, Table, Td, Th,
+  Badge, Card, CardBody, CardHeader, CardTitle, CardDesc, Empty, PageHeader,
+  ScopeNote, StatCard, Table, Td, Th,
 } from "@/components/ui";
 import { GAME_NAMES, STANCE_COLORS } from "@/lib/nav";
 import { num, pct, signed } from "@/lib/utils";
+import { currentStudyId, getStudy, previousStudyOf } from "@/lib/studies";
+
+type Delta = { label: string; value: number | null } | null;
+
+function DeltaChip({ d }: { d: Delta }) {
+  if (!d || d.value === null) return null;
+  const up = d.value >= 0;
+  return (
+    <span
+      className={
+        "ml-1.5 inline-flex items-center gap-0.5 rounded px-1 py-px text-[10px] font-medium tabular-nums " +
+        (up ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-700")
+      }
+      title={`相对上一版本 ${d.label}`}
+    >
+      {up ? "▲" : "▼"} {Math.abs(d.value) < 1 ? Math.abs(d.value).toFixed(1) : num(Math.abs(d.value))}
+    </span>
+  );
+}
 
 export default function OverviewPage() {
   const [d, setD] = useState<Overview | null>(null);
+  const [prev, setPrev] = useState<Overview | null>(null);
   const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
     data.overview().then(setD).catch((e) => setErr(String(e.message)));
+    if (DEMO_MODE) {
+      const p = previousStudyOf(currentStudyId());
+      if (p) fetch(`public-data/overview-${p.id}.json`).then((r) => (r.ok ? r.json() : null)).then((j) => j && setPrev(j)).catch(() => {});
+    }
   }, []);
 
   if (err) return <Empty>加载失败：{err}</Empty>;
   if (!d) return <Empty>加载中…</Empty>;
 
+  const meta = getStudy(d.study.study_id);
   const stance = d.overall.stance;
   const stanceData = [
     { name: "支持", value: stance.support }, { name: "反对", value: stance.oppose },
@@ -28,34 +54,50 @@ export default function OverviewPage() {
     { name: "不明确", value: stance.unclear },
   ].filter((x) => x.value > 0);
 
+  const net = d.overall.net_support_rate;
+  const deltas: Record<string, Delta> = prev
+    ? {
+        relevant: { label: prev.study.version, value: d.dataset.relevant_posts - prev.dataset.relevant_posts },
+        videos: { label: prev.study.version, value: d.dataset.videos - prev.dataset.videos },
+        net: prev.overall.net_support_rate !== null && net !== null
+          ? { label: prev.study.version, value: net - prev.overall.net_support_rate }
+          : null,
+      }
+    : {};
+
+  const lowSample = d.dataset.relevant_posts < 3000;
+
   return (
     <div className="mx-auto max-w-6xl space-y-4">
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <div>
-          <h1 className="text-base font-semibold">
-            {GAME_NAMES[d.study.game] ?? d.study.game} {d.study.version} · 总览
-          </h1>
-          <p className="text-xs text-zinc-500">T0 = {d.study.t0} · 窗口 T-7 ~ T+28</p>
-        </div>
-        <Badge tone="gray">{d.scope_statement}</Badge>
-      </div>
+      <PageHeader
+        title={`${GAME_NAMES[d.study.game] ?? d.study.game} ${d.study.version}${meta?.codename ? `「${meta.codename}」` : ""} · 社区总览`}
+        desc={`T0 = ${d.study.t0} · 相对窗口 T-7 ~ T+28 · 所有结论可回溯到统计口径与代表性原文`}
+        right={<Badge tone="gray">{d.scope_statement}</Badge>}
+      />
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
-        {[
-          { label: "有效相关评论", value: num(d.dataset.relevant_posts) },
-          { label: "视频覆盖", value: num(d.dataset.videos) },
-          { label: "弃权样本", value: num(d.dataset.abstain_count) },
-          { label: "无关剔除", value: num(d.dataset.irrelevant_count) },
-          { label: "整体净支持率", value: signed(d.overall.net_support_rate) },
-        ].map((k) => (
-          <Card key={k.label}>
-            <CardBody className="py-3">
-              <div className="text-[11px] text-zinc-500">{k.label}</div>
-              <div className="mt-0.5 text-lg font-semibold tabular-nums">{k.value}</div>
-            </CardBody>
-          </Card>
-        ))}
+        <StatCard
+          label="整体净支持率"
+          tone={net === null ? "default" : net >= 0 ? "green" : "red"}
+          value={signed(net)}
+          sub={<span>相对上一版本<DeltaChip d={deltas.net ?? null} /></span>}
+        />
+        <StatCard
+          label="有效相关评论"
+          value={num(d.dataset.relevant_posts)}
+          sub={<span>相对上一版本<DeltaChip d={deltas.relevant ?? null} /></span>}
+        />
+        <StatCard label="视频覆盖" value={num(d.dataset.videos)} sub={<span>相对上一版本<DeltaChip d={deltas.videos ?? null} /></span>} />
+        <StatCard label="弃权样本" value={num(d.dataset.abstain_count)} sub="模型无法判断，如实计入弃权率" />
+        <StatCard label="无关剔除" value={num(d.dataset.irrelevant_count)} sub="相关性过滤剔除" />
       </div>
+
+      {lowSample && (
+        <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] leading-5 text-amber-800">
+          样本量口径提示：本版本有效相关评论低于方案目标（3,000 条/游戏）。采集受限与版本讨论热度都会影响样本量，
+          解读时请关注趋势方向而非精确占比，详见报告页「局限性」。
+        </div>
+      )}
 
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
@@ -146,7 +188,7 @@ export default function OverviewPage() {
             </thead>
             <tbody>
               {d.topic_shares.map((t) => (
-                <tr key={t.topic}>
+                <tr key={t.topic} className="hover:bg-zinc-50">
                   <Td>{t.topic}</Td>
                   <Td className="tabular-nums">{num(t.count)}</Td>
                   <Td className="tabular-nums">{pct(t.share)}</Td>

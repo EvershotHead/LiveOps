@@ -97,18 +97,15 @@ test("运营报告：结论引用与验证状态", async ({ page }) => {
   await expect(page.locator("[data-claim]").first()).toBeVisible();
 });
 
-test("演示模式：游戏切换", async ({ page }) => {
+test("演示模式：study 切换", async ({ page }) => {
   await page.goto("/overview", { waitUntil: "networkidle" });
-  const sw = page.locator("[data-demo-switch]");
-  // 移动端切换器在抽屉菜单内：bbox 在视口外时先打开菜单
-  const box = await sw.boundingBox();
-  if (!box || box.x < 0) {
-    await page.getByRole("button", { name: "菜单" }).click();
-    await page.waitForTimeout(400);
-  }
-  await sw.getByText("鸣潮 3.5").click();
+  // 顶栏 StudySwitcher：点开下拉，选鸣潮 3.6（移动端顶栏常驻，无需开抽屉）
+  const sw = page.locator("[data-study-switcher]");
+  await sw.first().getByRole("button").click();
+  await page.getByRole("listbox").getByText("鸣潮 3.6").click();
   await page.waitForLoadState("networkidle");
-  await expect(page.getByText("鸣潮 3.5 · 总览").first()).toBeVisible();
+  await expect(page.getByText("鸣潮 3.6").first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: /蜃云灯影，凡尘剑心/ })).toBeVisible();
 });
 
 test("演示模式：只读（无导入入口）", async ({ page }) => {

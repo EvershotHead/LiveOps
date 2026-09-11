@@ -9,6 +9,7 @@ import type {
   CompareData, ControversyRow, EvaluationData, EvidenceItem, Overview,
   ReviewItem, RunSummary, SensitivityData, TimelineData,
 } from "./types";
+import { DEFAULT_STUDY, currentCompareKey, currentStudyId } from "./studies";
 
 export const DEMO_MODE = process.env.NEXT_PUBLIC_DEMO === "1";
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8000";
@@ -29,14 +30,10 @@ export function getStoredRun(): string | null {
   return window.localStorage.getItem("liveops.run");
 }
 
-/** 演示模式当前游戏（genshin | wuwa）。 */
-export function demoGame(): "genshin" | "wuwa" {
-  if (typeof window === "undefined") return "genshin";
-  return window.localStorage.getItem("liveops.demoGame") === "wuwa" ? "wuwa" : "genshin";
-}
-
-export function setDemoGame(g: "genshin" | "wuwa") {
-  window.localStorage.setItem("liveops.demoGame", g);
+/** 演示模式当前 study（如 genshin-7.0），决定读取的静态数据文件。 */
+export function demoStudy(): string {
+  if (typeof window === "undefined") return DEFAULT_STUDY;
+  return currentStudyId();
 }
 
 async function apiGet<T>(path: string): Promise<T> {
@@ -69,25 +66,25 @@ export const data = {
     DEMO_MODE ? demoGet<RunSummary[]>("runs").catch(() => []) : apiGet<RunSummary[]>("/api/runs"),
   runDetail: (id: string): Promise<Record<string, unknown>> => apiGet(`/api/runs/${id}`),
   overview: (runId?: string): Promise<Overview> =>
-    DEMO_MODE ? demoGet<Overview>(`overview-${demoGame()}`) : apiGet<Overview>(`/api/runs/${ctx(runId)}/overview`),
+    DEMO_MODE ? demoGet<Overview>(`overview-${demoStudy()}`) : apiGet<Overview>(`/api/runs/${ctx(runId)}/overview`),
   metrics: (runId?: string): Promise<MetricsLike> =>
-    DEMO_MODE ? demoGet<MetricsLike>(`metrics-${demoGame()}`) : apiGet<MetricsLike>(`/api/runs/${ctx(runId)}/metrics`),
+    DEMO_MODE ? demoGet<MetricsLike>(`metrics-${demoStudy()}`) : apiGet<MetricsLike>(`/api/runs/${ctx(runId)}/metrics`),
   timeline: (runId?: string): Promise<TimelineData> =>
-    DEMO_MODE ? demoGet<TimelineData>(`timeline-${demoGame()}`) : apiGet<TimelineData>(`/api/runs/${ctx(runId)}/timeline`),
+    DEMO_MODE ? demoGet<TimelineData>(`timeline-${demoStudy()}`) : apiGet<TimelineData>(`/api/runs/${ctx(runId)}/timeline`),
   controversy: (runId?: string): Promise<{ rows: ControversyRow[]; scope_statement: string }> =>
     DEMO_MODE
-      ? demoGet<{ rows: ControversyRow[]; scope_statement: string }>(`controversy-${demoGame()}`)
+      ? demoGet<{ rows: ControversyRow[]; scope_statement: string }>(`controversy-${demoStudy()}`)
       : apiGet<{ rows: ControversyRow[]; scope_statement: string }>(`/api/runs/${ctx(runId)}/controversy`),
   sensitivity: (runId?: string): Promise<SensitivityData> =>
-    DEMO_MODE ? demoGet<SensitivityData>(`sensitivity-${demoGame()}`) : apiGet<SensitivityData>(`/api/runs/${ctx(runId)}/sensitivity`),
+    DEMO_MODE ? demoGet<SensitivityData>(`sensitivity-${demoStudy()}`) : apiGet<SensitivityData>(`/api/runs/${ctx(runId)}/sensitivity`),
   evaluation: (runId?: string): Promise<EvaluationData> =>
-    DEMO_MODE ? demoGet<EvaluationData>(`evaluation-${demoGame()}`) : apiGet<EvaluationData>(`/api/runs/${ctx(runId)}/evaluation`),
-  compare: (): Promise<CompareData> => demoGet<CompareData>("compare"),
+    DEMO_MODE ? demoGet<EvaluationData>(`evaluation-${demoStudy()}`) : apiGet<EvaluationData>(`/api/runs/${ctx(runId)}/evaluation`),
+  compare: (): Promise<CompareData> => demoGet<CompareData>(`compare-${currentCompareKey()}`),
   compareRuns: (a: string, b: string): Promise<CompareData> => apiGet<CompareData>(`/api/compare/${a}/${b}`),
   reviewQueue: (runId: string, limit = 50): Promise<{ count: number; items: ReviewItem[] }> =>
     apiGet(`/api/review/${runId}/queue?limit=${limit}`),
   evidence: (runId: string, id: string): Promise<EvidenceItem> =>
     DEMO_MODE ? demoGet<EvidenceItem>(`evidence/${id}`) : apiGet<EvidenceItem>(`/api/evidence/${runId}/${id}`),
   reportUrl: (runId?: string): string =>
-    DEMO_MODE ? `public-data/report-${demoGame()}.html` : `${API_BASE}/api/runs/${ctx(runId)}/report`,
+    DEMO_MODE ? `public-data/report-${demoStudy()}.html` : `${API_BASE}/api/runs/${ctx(runId)}/report`,
 };

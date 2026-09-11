@@ -39,3 +39,6 @@ playwright-report/
 *.webm
 *.mp4
 data/tmp/
+
+# 本地构建数据副本（CI 由 workflow 从 demo/public-data 复制）
+frontend/public/public-data/

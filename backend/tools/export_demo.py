@@ -17,7 +17,17 @@ ROOT = Path(__file__).resolve().parents[2]
 RUNS = ROOT / "runs"
 OUT = ROOT / "demo" / "public-data"
 
-GAMES = {"genshin": "full-genshin-6.8", "wuwa": "full-wuthering-3.5"}
+# 演示数据按 study_id 命名；新旧版本并存供前端版本切换
+STUDIES = {
+    "genshin-7.0": "full-genshin-7.0",
+    "genshin-6.8": "full-genshin-6.8",
+    "wuthering-3.6": "full-wuthering-3.6",
+    "wuthering-3.5": "full-wuthering-3.5",
+}
+COMPARE_PAIRS = {
+    "genshin-7.0_vs_wuthering-3.6": ("full-genshin-7.0", "full-wuthering-3.6"),
+    "genshin-6.8_vs_wuthering-3.5": ("full-genshin-6.8", "full-wuthering-3.5"),
+}
 
 
 def main():
@@ -28,7 +38,7 @@ def main():
     rr._review_svc = __import__("liveops.service_review", fromlist=["ReviewService"]).ReviewService(store)
 
     summaries = []
-    for key, run_id in GAMES.items():
+    for key, run_id in STUDIES.items():
         ov = rr.run_overview(run_id)
         tl = rr.run_timeline(run_id)
         cv = rr.run_controversy(run_id)
@@ -39,7 +49,7 @@ def main():
         else:
             ev = {
                 "gold_layer": "strong_model_seed",
-                "n_gold": 800,
+                "n_gold": 400,
                 "n_evaluated": None,
                 "relevance": {"macro_f1": None, "note": "全量回放模式，无金标对照"},
                 "topics": {"macro_f1": None},
@@ -49,7 +59,7 @@ def main():
                 "confusion": {},
                 "targets": {"relevance": 0.9, "topics": 0.7, "stance": 0.75, "emotion": 0.65, "irony": 0.6},
                 "notes": [
-                    "全量标注模式：开发 Agent 强模型全量标注（原神1597/鸣潮1939条）回放进入管道，回放一致性100%验证管道正确性，非模型质量证据",
+                    "全量标注模式：开发 Agent 强模型全量标注回放进入管道，验证管道正确性，非模型质量证据",
                     "LLM 标注质量：未测量——配置密钥后对全量样本真实运行可得",
                     "向量基线/金标对照：待人工金标层补齐后计算",
                 ],
@@ -61,18 +71,21 @@ def main():
         for eid, item in (m.get("evidence_items") or {}).items():
             item = dict(item)
             item["text_excerpt"] = mask_text(item.get("text_excerpt", ""))
+            item["video_title"] = mask_text(item.get("video_title", ""))
             (ev_dir / f"{eid}.json").write_text(
                 json.dumps(item, ensure_ascii=False), encoding="utf-8")
         # evidence_items 内嵌文本也脱敏后整体导出（供争议页直读）
         for item in (m.get("evidence_items") or {}).values():
             item["text_excerpt"] = mask_text(item.get("text_excerpt", ""))
+            item["video_title"] = mask_text(item.get("video_title", ""))
 
         # 公开导出强制泄漏扫描
         from liveops.anonymize import build_public_export
         posts_pub = [
             {"post_id": pid, "video_id": "", "text": mask_text(e.get("text_excerpt", "")),
              "published_at": e.get("published_at", ""), "likes": e.get("likes", 0),
-             "source_url": e.get("source_url", ""), "synthetic": False}
+             "source_url": e.get("source_url", ""), "synthetic": False,
+             "video_title": mask_text(e.get("video_title", ""))}
             for pid, e in (m.get("evidence_items") or {}).items()
         ]
         build_public_export(posts_pub, [], m)  # 断言通过才继续
@@ -96,14 +109,16 @@ def main():
             "status": manifest.get("status", "completed"),
             "created_at": manifest.get("created_at", ""),
             "models": manifest.get("models", {}), "cost_cny": 0,
-            "game_key": key,
+            "study_key": key,
         })
         print(f"[demo] {key} <- {run_id} (evidence {len(m.get('evidence_items') or {})})")
 
-    cmp = build_comparison(GAMES["genshin"], GAMES["wuwa"], store)
-    (OUT / "compare.json").write_text(json.dumps(cmp, ensure_ascii=False, default=str), encoding="utf-8")
+    for pair_key, (run_a, run_b) in COMPARE_PAIRS.items():
+        cmp = build_comparison(run_a, run_b, store)
+        (OUT / f"compare-{pair_key}.json").write_text(json.dumps(cmp, ensure_ascii=False, default=str), encoding="utf-8")
+        print(f"[demo] compare-{pair_key}.json")
     (OUT / "runs.json").write_text(json.dumps(summaries, ensure_ascii=False), encoding="utf-8")
-    print("[demo] compare.json + runs.json 写出完成")
+    print("[demo] runs.json 写出完成")
 
 
 if __name__ == "__main__":

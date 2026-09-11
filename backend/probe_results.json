@@ -1,0 +1,93 @@
+{
+ "probed_at": "2026-09-11T15:33:06+00:00",
+ "results": [
+  {
+   "platform": "小红书",
+   "probe": "首页 HTML",
+   "url": "https://www.xiaohongshu.com/explore",
+   "http": 200,
+   "redirect": "https://www.xiaohongshu.com/login?redirectPath=http%3A%2F%2Fwww.xiaohongshu.com%2Fexplore%3FexSource%3Dnull",
+   "json": false,
+   "code": null,
+   "snippet": "<!doctype html><html><head><script formula-runtime >function e(e){for(var r=1;r<arguments.length;r++){var t=null!=arguments[r]?arguments[r]:{},n=Object.keys(t);\"function\"==typeof Object.getOwnPropertySymbols&&(n=n.concat(Object.getOwnPropertySymbols(t).filter(function(e){return Object.getOwnProperty",
+   "note": "看未登录是否直接给内容流/登录墙"
+  },
+  {
+   "platform": "小红书",
+   "probe": "搜索 API（无签名）",
+   "url": "https://edith.xiaohongshu.com/api/sns/web/v1/search/notes?keyword=%E5%8E%9F%E7%A5%9E&page=1",
+   "http": 404,
+   "redirect": "",
+   "json": false,
+   "code": null,
+   "snippet": "404 page not found",
+   "note": "已知需要 x-s/x-t 签名；验证无签名时返回什么"
+  },
+  {
+   "platform": "抖音",
+   "probe": "搜索 API（无签名）",
+   "url": "https://www.douyin.com/aweme/v1/web/search/item/?keyword=%E9%B8%A3%E6%BD%AE&count=10",
+   "http": 200,
+   "redirect": "",
+   "json": true,
+   "code": 0,
+   "snippet": "{\"status_code\": 0, \"aweme_list\": null, \"has_more\": 0, \"cursor\": 10, \"extra\": {\"now\": 1789140787000, \"logid\": \"20260911233307CB489E8DBDBBDAD0CDAE\", \"fatal_item_ids\": [], \"search_request_id\": \"\", \"scenes\": null}, \"log_pb\": {\"impr_id\": \"20260911233307CB489E8DBDBBDAD0CDAE\"}, \"search_nil_info\": {\"search_",
+   "note": "已知需要 X-Bogus/msToken；验证无签名返回"
+  },
+  {
+   "platform": "抖音",
+   "probe": "视频页 HTML",
+   "url": "https://www.douyin.com/discover",
+   "http": 200,
+   "redirect": "https://www.douyin.com/jingxuan",
+   "json": false,
+   "code": null,
+   "snippet": "<html><head><meta charset=\"UTF-8\" /></head><body></body> <script> var glb;(glb=\"undefined\"==typeof window?global:window)._$jsvmprt=function(b,e,f){function a(){if(\"undefined\"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if(\"function\"==typeof Proxy)return!0;try{retu",
+   "note": "看未登录内容流是否渲染"
+  },
+  {
+   "platform": "微博",
+   "probe": "热搜 API",
+   "url": "https://weibo.com/ajax/side/hotSearch",
+   "http": 403,
+   "redirect": "",
+   "json": true,
+   "code": "?",
+   "snippet": "{\"error\": \"Forbidden\"}",
+   "note": "公开热搜，通常无需登录"
+  },
+  {
+   "platform": "微博",
+   "probe": "m 站搜索 API",
+   "url": "https://m.weibo.cn/api/container/getIndex?containerid=100103type%3D1%26q%3D%E5%8E%9F%E7%A5%9E7.0",
+   "http": 200,
+   "redirect": "https://visitor.passport.weibo.cn/visitor/visitor?entry=sinawap&a=enter&url=https%3A%2F%2Fm.weibo.cn%2Fapi%2Fcontainer%2FgetIndex%3Fcontainerid%3D100103type%253D1%2526q%253D%25E5%258E%259F%25E7%25A5%259E7.0&domain=.weibo.cn&sudaref=&ua=php-sso_sdk_client-0.6.36&_rand=1789140795.2812",
+   "json": false,
+   "code": null,
+   "snippet": "<!DOCTYPE html> <html> <head>     <meta http-equiv=\"Content-type\" content=\"text/html; charset=utf-8\"/>     <title>Sina Visitor System</title> </head> <body> <span id=\"message\"></span> <script type=\"text/javascript\" src=\"/js/visitor/mini_original.js?v=20161116\"></script> <script src=\"https://passport",
+   "note": "移动端综合搜索；未登录常返回提示登录"
+  },
+  {
+   "platform": "米游社",
+   "probe": "首页拿 cookie",
+   "url": "https://www.miyoushe.com/ys/",
+   "http": 200,
+   "redirect": "",
+   "json": false,
+   "code": null,
+   "snippet": "<!doctype html> <html lang=\"zh-CN\" data-n-head=\"%7B%22lang%22:%7B%221%22:%22zh-CN%22%7D%7D\"> <head>   <meta data-n-head=\"1\" charset=\"utf-8\"><meta data-n-head=\"1\" httpequiv=\"content-language\" content=\"zh-CN\"><meta data-n-head=\"1\" http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"><meta data-n-head=\"1\" na",
+   "note": "先建立会话"
+  },
+  {
+   "platform": "米游社",
+   "probe": "原神版块帖子列表 API",
+   "url": "https://bbs-api.miyoushe.com/post/wapi/ForumPostList?forum_id=1&is_good=false&is_hot=false&last_id=&page_size=20&sort_type=2",
+   "http": 404,
+   "redirect": "",
+   "json": false,
+   "code": null,
+   "snippet": "404 page not found ",
+   "note": "公开版块列表；验证无登录 cookie 是否可读"
+  }
+ ]
+}

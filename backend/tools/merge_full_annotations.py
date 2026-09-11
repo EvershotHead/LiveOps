@@ -47,8 +47,15 @@ def main():
                 existing[a.post_id] = a
 
     n = 0
-    for todo_item, raw in zip(seg, batch):
+    for idx, (todo_item, raw) in enumerate(zip(seg, batch)):
         pid = todo_item["post_id"]
+        # 防错位硬校验：数组项若带 "id" 字段必须与 todo 顺序位一致（历史教训：
+        # 批次少写/多写对象曾造成 post_id 顺序错位污染）
+        if "id" in raw:
+            rid = str(raw["id"])
+            assert rid == pid, (
+                f"第 {idx} 项 post_id 不匹配: 标注 {rid} != todo {pid} —— 批次顺序错位，拒绝合并"
+            )
         fields = {KEYMAP[k]: v for k, v in raw.items() if k in KEYMAP}
         fields.setdefault("topics", [])
         fields.setdefault("intensity", 0)

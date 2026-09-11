@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Activity, BarChart3, CalendarRange, Database, FileText, FlaskConical,
   GitCompareArrows, MessagesSquare, SearchCheck, Menu,
@@ -11,33 +11,46 @@ import { DEMO_BRAND } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 import { DEMO_MODE } from "@/lib/api";
 import { Badge } from "@/components/ui";
+import { StudySwitcher } from "@/components/layout/study-switcher";
 
-const NAV = [
-  { href: "/", label: "数据与任务", icon: Database },
-  { href: "/overview", label: "总览", icon: BarChart3 },
-  { href: "/timeline", label: "版本时间线", icon: CalendarRange },
-  { href: "/topics", label: "主题洞察", icon: MessagesSquare },
-  { href: "/controversy", label: "社区争议", icon: Activity },
-  { href: "/compare", label: "双游戏对照", icon: GitCompareArrows },
-  { href: "/evidence", label: "证据与审核", icon: SearchCheck },
-  { href: "/evaluation", label: "模型评测", icon: FlaskConical },
-  { href: "/report", label: "运营报告", icon: FileText },
+const NAV_GROUPS: { group: string; items: { href: string; label: string; icon: typeof Database }[] }[] = [
+  {
+    group: "决策台",
+    items: [
+      { href: "/", label: "数据与任务", icon: Database },
+      { href: "/overview", label: "总览", icon: BarChart3 },
+    ],
+  },
+  {
+    group: "版本分析",
+    items: [
+      { href: "/timeline", label: "版本时间线", icon: CalendarRange },
+      { href: "/topics", label: "主题洞察", icon: MessagesSquare },
+      { href: "/controversy", label: "社区争议", icon: Activity },
+    ],
+  },
+  {
+    group: "跨版本",
+    items: [{ href: "/compare", label: "双游戏对照", icon: GitCompareArrows }],
+  },
+  {
+    group: "治理与质量",
+    items: [
+      { href: "/evidence", label: "证据与审核", icon: SearchCheck },
+      { href: "/evaluation", label: "模型评测", icon: FlaskConical },
+      { href: "/report", label: "运营报告", icon: FileText },
+    ],
+  },
 ];
+
+const PAGE_TITLES: Record<string, string> = Object.fromEntries(
+  NAV_GROUPS.flatMap((g) => g.items).map((n) => [n.href, n.label]),
+);
 
 export function Shell({ children, mode }: { children: React.ReactNode; mode: "local" | "demo" }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [game, setGame] = useState<"genshin" | "wuwa">("genshin");
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setGame(window.localStorage.getItem("liveops.demoGame") === "wuwa" ? "wuwa" : "genshin");
-    }
-  }, []);
-  const switchGame = (g: "genshin" | "wuwa") => {
-    window.localStorage.setItem("liveops.demoGame", g);
-    setGame(g);
-    window.location.reload();
-  };
+  const title = PAGE_TITLES[pathname] ?? "";
   return (
     <div className="flex min-h-screen bg-zinc-50 text-zinc-900">
       {/* 侧边导航 */}
@@ -55,46 +68,37 @@ export function Shell({ children, mode }: { children: React.ReactNode; mode: "lo
           </div>
         </div>
         <nav className="p-2" aria-label="主导航">
-          {NAV.map((n) => {
-            const Icon = n.icon;
-            const active = pathname === n.href;
-            return (
-              <Link
-                key={n.href}
-                href={n.href}
-                onClick={() => setOpen(false)}
-                data-nav={n.label}
-                className={cn(
-                  "mb-0.5 flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[13px]",
-                  active ? "bg-zinc-100 font-medium text-zinc-900" : "text-zinc-600 hover:bg-zinc-50",
-                )}
-              >
-                <Icon className="h-3.5 w-3.5" />
-                {n.label}
-              </Link>
-            );
-          })}
+          {NAV_GROUPS.map((g) => (
+            <div key={g.group} className="mb-1.5">
+              <div className="px-2.5 pb-1 pt-1.5 text-[10px] font-medium uppercase tracking-wider text-zinc-400">
+                {g.group}
+              </div>
+              {g.items.map((n) => {
+                const Icon = n.icon;
+                const active = pathname === n.href;
+                return (
+                  <Link
+                    key={n.href}
+                    href={n.href}
+                    onClick={() => setOpen(false)}
+                    data-nav={n.label}
+                    className={cn(
+                      "mb-0.5 flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[13px]",
+                      active ? "bg-zinc-100 font-medium text-zinc-900" : "text-zinc-600 hover:bg-zinc-50",
+                    )}
+                  >
+                    <Icon className="h-3.5 w-3.5" />
+                    {n.label}
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
         </nav>
         <div className="absolute bottom-0 left-0 right-0 border-t border-zinc-100 p-3">
           <Badge tone={mode === "demo" ? "blue" : "green"}>
             {mode === "demo" ? "公开演示 · 只读" : "本地模式"}
           </Badge>
-          {DEMO_MODE && (
-            <div className="mt-2 flex gap-1" data-demo-switch>
-              {(["genshin", "wuwa"] as const).map((g) => (
-                <button
-                  key={g}
-                  onClick={() => switchGame(g)}
-                  className={cn(
-                    "rounded border px-2 py-0.5 text-[11px]",
-                    game === g ? "border-zinc-900 bg-zinc-900 text-white" : "border-zinc-200 text-zinc-600",
-                  )}
-                >
-                  {g === "genshin" ? "原神 6.8" : "鸣潮 3.5"}
-                </button>
-              ))}
-            </div>
-          )}
           <p className="mt-2 text-[10px] leading-4 text-zinc-400">
             结论口径：所采样的 B 站讨论，不代表所有玩家。
           </p>
@@ -102,11 +106,16 @@ export function Shell({ children, mode }: { children: React.ReactNode; mode: "lo
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-12 items-center gap-3 border-b border-zinc-200 bg-white px-4 md:hidden">
-          <button aria-label="菜单" onClick={() => setOpen(!open)} className="rounded p-1 hover:bg-zinc-100">
+        {/* 顶栏：移动端品牌 + 菜单；桌面端页面标题 + study 切换器 */}
+        <header className="sticky top-0 z-30 flex h-12 items-center gap-3 border-b border-zinc-200 bg-white/95 px-4 backdrop-blur">
+          <button aria-label="菜单" onClick={() => setOpen(!open)} className="rounded p-1 hover:bg-zinc-100 md:hidden">
             <Menu className="h-5 w-5" />
           </button>
-          <span className="text-sm font-semibold">{DEMO_BRAND}</span>
+          <span className="text-sm font-semibold md:hidden">{DEMO_BRAND}</span>
+          <h1 className="hidden text-[13px] font-medium text-zinc-500 md:block">{title}</h1>
+          <div className="ml-auto flex items-center gap-2">
+            {DEMO_MODE && <StudySwitcher />}
+          </div>
         </header>
         <main className="min-w-0 flex-1 p-4 md:p-6">{children}</main>
       </div>

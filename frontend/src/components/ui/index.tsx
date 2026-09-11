@@ -146,3 +146,43 @@ export function ScopeNote({ text }: { text: string }) {
 export function Empty({ children }: { children: React.ReactNode }) {
   return <div className="flex h-40 items-center justify-center text-xs text-zinc-400">{children}</div>;
 }
+
+/** 统一页头：主标题 + 口径说明 + 右侧附加信息。 */
+export function PageHeader({ title, desc, right }: { title: string; desc?: string; right?: React.ReactNode }) {
+  return (
+    <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
+      <div>
+        <h2 className="text-base font-semibold leading-6 text-zinc-900">{title}</h2>
+        {desc && <p className="mt-0.5 text-xs leading-5 text-zinc-500">{desc}</p>}
+      </div>
+      {right && <div className="flex items-center gap-1.5">{right}</div>}
+    </div>
+  );
+}
+
+/** KPI 数值卡：大数字 + 标签 + 可选副注。 */
+export function StatCard({ label, value, sub, tone = "default", className }: {
+  label: string;
+  value: React.ReactNode;
+  sub?: React.ReactNode;
+  tone?: "default" | "green" | "red" | "amber";
+  className?: string;
+}) {
+  return (
+    <Card className={cn("px-3.5 py-3", className)}>
+      <div className="text-[11px] text-zinc-500">{label}</div>
+      <div
+        className={cn(
+          "mt-1 text-xl font-semibold tabular-nums leading-7",
+          tone === "green" && "text-emerald-700",
+          tone === "red" && "text-red-700",
+          tone === "amber" && "text-amber-700",
+          tone === "default" && "text-zinc-900",
+        )}
+      >
+        {value}
+      </div>
+      {sub && <div className="mt-0.5 text-[11px] leading-4 text-zinc-400">{sub}</div>}
+    </Card>
+  );
+}

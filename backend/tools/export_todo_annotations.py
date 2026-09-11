@@ -8,7 +8,7 @@ from datetime import date
 from pathlib import Path
 
 from liveops.normalize import day_offset, normalize_posts
-from liveops.schema import CommunityPost, StudyConfig
+from liveops.schema import CommunityPost, PhaseWindow, StudyConfig
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data"
@@ -16,12 +16,15 @@ DATA = ROOT / "data"
 STUDIES = {
     "genshin-6.8": ("genshin", "6.8", date(2026, 7, 1)),
     "wuthering-3.5": ("wuthering_waves", "3.5", date(2026, 7, 10)),
+    "genshin-7.0": ("genshin", "7.0", date(2026, 8, 12)),
+    "wuthering-3.6": ("wuthering_waves", "3.6", date(2026, 8, 20)),
 }
 
 
 def export(study_id: str):
     game, ver, t0 = STUDIES[study_id]
-    study = StudyConfig(study_id=study_id, game=game, version_label=ver, t0_date=t0)
+    window = PhaseWindow(ferment=(8, 22)) if study_id == "wuthering-3.6" else PhaseWindow()
+    study = StudyConfig(study_id=study_id, game=game, version_label=ver, t0_date=t0, window=window)
     posts = [CommunityPost.model_validate(json.loads(l))
              for l in open(DATA / "raw" / study_id / "frozen" / "posts.jsonl", encoding="utf-8") if l.strip()]
     kept, rep = normalize_posts(posts, study)
