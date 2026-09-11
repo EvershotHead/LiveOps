@@ -63,6 +63,30 @@ STUDIES = {
             "controversy": ["鸣潮3.5 卡池", "鸣潮3.5 节奏", "鸣潮3.5 争议"],
         },
     },
+    "genshin70": {
+        "study_id": "genshin-7.0", "game": "genshin", "version_label": "7.0",
+        "t0": date(2026, 8, 12),
+        "official_names": {"原神", "米哈游原神"},
+        "terms": {
+            "official": ["原神7.0 PV", "原神 7.0 前瞻"],
+            "guide": ["原神7.0 攻略", "原神7.0 深渊 阵容", "原神 奥黛塔 测评"],
+            "review": ["原神7.0 体验", "原神7.0 评价"],
+            "fanwork": ["原神7.0 二创", "奥黛塔 MMD"],
+            "controversy": ["原神7.0 卡池", "原神7.0 节奏", "原神7.0 退坑"],
+        },
+    },
+    "wuwa36": {
+        "study_id": "wuthering-3.6", "game": "wuthering_waves", "version_label": "3.6",
+        "t0": date(2026, 8, 20),
+        "official_names": {"鸣潮", "库洛游戏", "库街区"},
+        "terms": {
+            "official": ["鸣潮3.6 PV", "鸣潮 3.6 前瞻"],
+            "guide": ["鸣潮3.6 攻略", "鸣潮3.6 阵容", "鸣潮 清宵 测评"],
+            "review": ["鸣潮3.6 体验", "鸣潮3.6 评价"],
+            "fanwork": ["鸣潮3.6 二创", "鸣潮3.6 手书"],
+            "controversy": ["鸣潮3.6 卡池", "鸣潮3.6 节奏", "鸣潮3.6 争议"],
+        },
+    },
 }
 
 

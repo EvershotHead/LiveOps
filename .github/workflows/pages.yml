@@ -42,10 +42,11 @@ jobs:
           NEXT_PUBLIC_DEMO=1 pnpm build 2>&1 | tee -a /tmp/ci-build.log | tail -30
       - name: Upload build log on failure
         if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ci-build-log
-          path: /tmp/ci-build.log
+        run: |
+          # 日志页面需登录才能查看；把尾部日志打成 ::error:: 注解（匿名可通过 API/页面读到）
+          tail -n 30 /tmp/ci-build.log | sed 's/%/%25/g; s/\r/%0D/g; s/\n/%0A/g' | cut -c1-500 | while IFS= read -r line; do
+            echo "::error::$line"
+          done
       - uses: actions/upload-pages-artifact@v3
         with:
           path: frontend/out
